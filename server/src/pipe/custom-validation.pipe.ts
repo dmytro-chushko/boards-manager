@@ -5,8 +5,12 @@ import { ValidationException } from "src/exception/validation.exception";
 
 @Injectable()
 export class CustomValidationPipe implements PipeTransform<any> {
-  async transform(value: string, metadata: ArgumentMetadata): Promise<string> {
-    const obj = plainToClass(metadata.metatype, value);
+  async transform(value: any, { metatype }: ArgumentMetadata): Promise<any> {
+    if (!metatype || !this.toValidate(metatype)) {
+      return value;
+    }
+
+    const obj = plainToClass(metatype, value);
     const errors = await validate(obj);
 
     if (errors.length) {
@@ -18,5 +22,13 @@ export class CustomValidationPipe implements PipeTransform<any> {
     }
 
     return value;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  private toValidate(metatype: Function): boolean {
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    const types: Function[] = [String, Boolean, Number, Array, Object];
+
+    return !types.includes(metatype);
   }
 }

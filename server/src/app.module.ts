@@ -2,6 +2,7 @@ import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { Board, Card } from "./database/entities";
+import { BoardModule } from "./modules/board/board.module";
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { Board, Card } from "./database/entities";
       entities: [Board, Card],
       synchronize: true,
     }),
+    BoardModule,
   ],
   controllers: [],
   providers: [],

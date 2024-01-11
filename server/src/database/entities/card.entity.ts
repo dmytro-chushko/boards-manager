@@ -1,6 +1,13 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { STATUS } from "src/utils/enums/Status";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from "typeorm";
 import { Board } from ".";
 
 @Entity({ orderBy: { order: "ASC" } })
@@ -39,6 +46,12 @@ export class Card {
   })
   @Column({ type: "enum", enum: STATUS })
   status: STATUS;
+
+  @CreateDateColumn({ type: "timestamptz", name: "created_at" })
+  createdAt: Date;
+
+  @UpdateDateColumn({ type: "timestamptz", name: "updated_at" })
+  updatedAt: Date;
 
   @ManyToOne(() => Board, board => board.cards)
   board: Board;

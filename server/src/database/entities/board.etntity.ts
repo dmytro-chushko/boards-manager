@@ -2,10 +2,12 @@ import { Card } from ".";
 import { ApiProperty } from "@nestjs/swagger";
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from "typeorm";
 
 @Entity()
@@ -21,8 +23,14 @@ export class Board {
     description: "Board title",
     example: "My new project",
   })
-  @Column({ length: 100 })
+  @Column({ default: "New board", length: 100 })
   title: string;
+
+  @CreateDateColumn({ type: "timestamptz", name: "created_at" })
+  createdAt: Date;
+
+  @UpdateDateColumn({ type: "timestamptz", name: "updated_at" })
+  updatedAt: Date;
 
   @OneToMany(() => Card, card => card.board)
   @JoinColumn()
