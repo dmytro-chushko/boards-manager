@@ -26,6 +26,7 @@ module.exports = {
       { blankLine: "always", prev: "*", next: "return" },
       { blankLine: "always", prev: "if", next: "*" },
       { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
+      { blankLine: "any", prev: "const", next: "if" },
       {
         blankLine: "any",
         prev: ["const", "let", "var"],

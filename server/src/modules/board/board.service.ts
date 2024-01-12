@@ -1,10 +1,10 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Board } from "src/database/entities";
 import { Repository } from "typeorm";
 import { UpdateBoardDto } from "./dto/update-board.dto";
-import { EXCEPTION_MESSAGE } from "src/utils/error-messages";
 import { SUCCESSFUL_RESPONSE } from "src/utils/consts";
+import { checkAndReturnEntity } from "src/utils/helpers/check-and-return";
 
 @Injectable()
 export class BoardService {
@@ -23,15 +23,21 @@ export class BoardService {
     return await this.boardRepository.find();
   }
 
+  async getBoardById(id: string): Promise<Board> {
+    const board = await checkAndReturnEntity<Board>(this.boardRepository, {
+      where: { id },
+    });
+
+    return board;
+  }
+
   async updateBoard(
     id: string,
     updateBoardDto: UpdateBoardDto,
   ): Promise<string> {
-    const board = await this.boardRepository.findOne({ where: { id } });
-
-    if (!board) {
-      throw new NotFoundException(EXCEPTION_MESSAGE.NOT_FOUND);
-    }
+    const board = await checkAndReturnEntity<Board>(this.boardRepository, {
+      where: { id },
+    });
 
     await this.boardRepository.save({
       ...board,
@@ -39,5 +45,15 @@ export class BoardService {
     });
 
     return SUCCESSFUL_RESPONSE.UPDATED;
+  }
+
+  async removeBoardById(id: string): Promise<string> {
+    const board = await checkAndReturnEntity<Board>(this.boardRepository, {
+      where: { id },
+    });
+
+    await this.boardRepository.remove(board);
+
+    return SUCCESSFUL_RESPONSE.DELETED;
   }
 }
