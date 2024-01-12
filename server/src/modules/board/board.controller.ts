@@ -3,18 +3,15 @@ import {
   Controller,
   Delete,
   Get,
-  HttpStatus,
   Param,
   Post,
   Put,
-  Res,
 } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { BoardService } from "./board.service";
 import { UpdateBoardDto } from "./dto/update-board.dto";
 import { Board } from "src/database/entities";
 import { ROUTE, SUCCESSFUL_RESPONSE } from "src/utils/consts";
-import { Response } from "express";
 
 @ApiTags("Boards")
 @Controller(ROUTE.BOARD)
@@ -44,23 +41,20 @@ export class BoardController {
 
   @ApiOperation({ summary: "Update board data" })
   @ApiResponse({
-    status: 201,
+    status: 200,
     description: SUCCESSFUL_RESPONSE.UPDATED,
   })
   @Put(ROUTE.PARAM_ID)
-  async updateBoard(
+  updateBoard(
     @Param("id") id: string,
     @Body() updateBoardDto: UpdateBoardDto,
-    @Res() res: Response,
-  ): Promise<Response<any, Record<string, any>>> {
-    return res
-      .status(HttpStatus.CREATED)
-      .json(await this.boardService.updateBoard(id, updateBoardDto));
+  ): Promise<string> {
+    return this.boardService.updateBoard(id, updateBoardDto);
   }
 
   @ApiOperation({ summary: "Remove board" })
   @ApiResponse({
-    status: 201,
+    status: 200,
     description: SUCCESSFUL_RESPONSE.DELETED,
   })
   @Delete(ROUTE.PARAM_ID)

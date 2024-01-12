@@ -6,6 +6,7 @@ import {
   HttpStatus,
 } from "@nestjs/common";
 import { HttpAdapterHost } from "@nestjs/core";
+import { ValidationException } from "./validation.exception";
 
 type ExceptionType = TypeError | HttpException;
 
@@ -27,7 +28,10 @@ export class AllExceptionsFilter implements ExceptionFilter {
       timestamp: new Date().toISOString(),
       path: httpAdapter.getRequestUrl(ctx.getRequest()),
       errorType: exception.constructor.name,
-      message: exception.message,
+      message:
+        exception instanceof ValidationException
+          ? exception.messages
+          : exception.message,
     };
 
     httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);

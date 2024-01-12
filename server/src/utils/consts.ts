@@ -6,5 +6,6 @@ export const enum SUCCESSFUL_RESPONSE {
 export const enum ROUTE {
   BOARD = "board",
   CARD = "card",
+  ALL = "all",
   PARAM_ID = "/:id",
 }

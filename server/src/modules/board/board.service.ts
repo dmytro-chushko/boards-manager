@@ -20,12 +20,15 @@ export class BoardService {
   }
 
   async getAllBoards(): Promise<Board[]> {
-    return await this.boardRepository.find();
+    return await this.boardRepository.find({
+      relations: { cards: true },
+    });
   }
 
   async getBoardById(id: string): Promise<Board> {
     const board = await checkAndReturnEntity<Board>(this.boardRepository, {
       where: { id },
+      relations: { cards: true },
     });
 
     return board;

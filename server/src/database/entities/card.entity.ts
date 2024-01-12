@@ -6,6 +6,7 @@ import {
   Entity,
   ManyToOne,
   PrimaryGeneratedColumn,
+  RelationId,
   UpdateDateColumn,
 } from "typeorm";
 import { Board } from ".";
@@ -23,14 +24,14 @@ export class Card {
     description: "Card title",
     example: "To do smth",
   })
-  @Column({ length: 100 })
+  @Column({ default: "New task", length: 100 })
   title: string;
 
   @ApiProperty({
-    description: "Card discription",
+    description: "Card description",
     example: "To do smth with some requirements",
   })
-  @Column({ length: 500 })
+  @Column({ default: "Description", length: 500 })
   description: string;
 
   @ApiProperty({
@@ -44,7 +45,7 @@ export class Card {
     description: "Status of the card",
     example: "to-do",
   })
-  @Column({ type: "enum", enum: STATUS })
+  @Column({ type: "enum", enum: STATUS, default: STATUS.TO_DO })
   status: STATUS;
 
   @CreateDateColumn({ type: "timestamptz", name: "created_at" })
@@ -55,4 +56,6 @@ export class Card {
 
   @ManyToOne(() => Board, board => board.cards)
   board: Board;
+  @RelationId((card: Card) => card.board)
+  boardId: string;
 }
