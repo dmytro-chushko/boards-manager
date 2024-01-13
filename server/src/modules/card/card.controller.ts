@@ -15,7 +15,6 @@ import { Card } from "src/database/entities";
 import { ROUTE, SUCCESSFUL_RESPONSE } from "src/utils/consts";
 import { UpdateCardDto } from "./dto/update-card.dto";
 import { UpdateOrederDto } from "./dto/update-order.dto";
-import { DeleteResult } from "typeorm";
 
 @ApiTags("Cards")
 @Controller(ROUTE.CARD)
@@ -62,7 +61,7 @@ export class CardController {
     description: SUCCESSFUL_RESPONSE.DELETED,
   })
   @Delete(ROUTE.PARAM_ID)
-  removeBoardById(@Param("id") id: string): Promise<DeleteResult> {
+  removeBoardById(@Param("id") id: string): Promise<string> {
     return this.cardService.removeCardById(id);
   }
 }

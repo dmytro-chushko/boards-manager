@@ -10,3 +10,8 @@ export const enum ROUTE {
   ORDER = "order",
   PARAM_ID = "/:id",
 }
+
+export const enum ORDER_ACTION {
+  INCREMENT = "increment",
+  DECREMENT = "decrement",
+}

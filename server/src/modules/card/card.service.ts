@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Card } from "src/database/entities";
-import { Between, DeleteResult, MoreThan, Repository } from "typeorm";
+import { Between, MoreThan, MoreThanOrEqual, Repository } from "typeorm";
 import { BoardService } from "../board/board.service";
 import { STATUS } from "src/utils/enums/Status";
 import { UpdateCardDto } from "./dto/update-card.dto";
@@ -63,7 +63,33 @@ export class CardService {
     boardId: string,
     dto: UpdateOrederDto,
   ): Promise<string> {
-    const { draggedId, swappedId, draggedStatus } = dto;
+    const { draggedId, swappedId, draggedStatus, swappedStatus } = dto;
+
+    if (!swappedId) {
+      const { draggedOrder } = await this.cardRepository
+        .createQueryBuilder("card")
+        .select("card.order", "draggedOrder")
+        .where("card.id = :draggedId", { draggedId })
+        .getRawOne<{ draggedOrder: number }>();
+
+      if (!draggedOrder) {
+        throw new NotFoundException(EXCEPTION_MESSAGE.NOT_FOUND);
+      }
+
+      await this.cardRepository.decrement(
+        {
+          board: { id: boardId },
+          status: draggedStatus,
+          order: MoreThan(draggedOrder),
+        },
+        "order",
+        1,
+      );
+
+      await this.updateCardById(draggedId, { order: 1, status: swappedStatus });
+
+      return SUCCESSFUL_RESPONSE.UPDATED;
+    }
 
     const orders = await this.cardRepository
       .createQueryBuilder("card")
@@ -84,20 +110,49 @@ export class CardService {
       card => card.card_id === swappedId,
     ).card_order;
 
-    const whereOptions = {
-      board: { id: boardId },
-      status: draggedStatus,
-      order:
-        draggedOrder > swappedOrder
-          ? Between(swappedOrder, draggedOrder)
-          : Between(draggedOrder, swappedOrder),
-    };
+    if (draggedStatus === swappedStatus) {
+      //Replace cards with one status
+      const whereOptions = {
+        board: { id: boardId },
+        status: draggedStatus,
+        order:
+          draggedOrder > swappedOrder
+            ? Between(swappedOrder, draggedOrder)
+            : Between(draggedOrder, swappedOrder),
+      };
 
-    await this.cardRepository[
-      draggedOrder > swappedOrder ? "increment" : "decrement"
-    ](whereOptions, "order", 1);
+      await this.cardRepository[
+        draggedOrder > swappedOrder ? "increment" : "decrement"
+      ](whereOptions, "order", 1);
 
-    await this.cardRepository.update(draggedId, { order: swappedOrder });
+      await this.updateCardById(draggedId, { order: swappedOrder });
+    } else {
+      //Replace cards with defferent statuses
+      await this.cardRepository.decrement(
+        {
+          board: { id: boardId },
+          status: draggedStatus,
+          order: MoreThan(draggedOrder),
+        },
+        "order",
+        1,
+      );
+
+      await this.cardRepository.increment(
+        {
+          board: { id: boardId },
+          status: swappedStatus,
+          order: MoreThanOrEqual(swappedOrder),
+        },
+        "order",
+        1,
+      );
+
+      await this.updateCardById(draggedId, {
+        order: swappedOrder,
+        status: swappedStatus,
+      });
+    }
 
     console.log(
       orders,
@@ -107,7 +162,7 @@ export class CardService {
     return SUCCESSFUL_RESPONSE.UPDATED;
   }
 
-  async removeCardById(id: string): Promise<DeleteResult> {
+  async removeCardById(id: string): Promise<string> {
     const result = await this.cardRepository
       .createQueryBuilder()
       .delete()
@@ -132,6 +187,6 @@ export class CardService {
       1,
     );
 
-    return result;
+    return SUCCESSFUL_RESPONSE.DELETED;
   }
 }

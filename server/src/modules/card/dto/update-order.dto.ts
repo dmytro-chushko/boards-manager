@@ -34,6 +34,7 @@ export class UpdateOrederDto {
   @ApiProperty({
     description: "Status of card that was swapped by dragged card",
     example: "to-do",
+    enum: representEnum(STATUS).split(", "),
   })
   @IsEnum(STATUS, {
     message: `${VALIDATION_ERROR.IS_ENUM} ${representEnum(STATUS)}`,

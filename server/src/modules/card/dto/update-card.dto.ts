@@ -8,7 +8,7 @@ export class UpdateCardDto {
   @ApiProperty({ example: "My first task", description: "Title of the task" })
   @IsString({ message: VALIDATION_ERROR.IS_STRING })
   @MaxLength(100, { message: `${VALIDATION_ERROR.MAX_LENGTH} 100` })
-  readonly title: string;
+  readonly title?: string;
 
   @ApiProperty({
     example: "Details of the task",
@@ -16,21 +16,22 @@ export class UpdateCardDto {
   })
   @IsString({ message: VALIDATION_ERROR.IS_STRING })
   @MaxLength(500, { message: `${VALIDATION_ERROR.MAX_LENGTH} 500` })
-  readonly description: string;
+  readonly description?: string;
 
   @ApiProperty({
-    example: "Details of the task",
+    example: 1,
     description: "description of the task",
   })
   @IsNumber({}, { message: VALIDATION_ERROR.IS_NUMBER })
-  readonly order: number;
+  readonly order?: number;
 
   @ApiProperty({
     description: "Status of the card",
     example: "to-do",
+    enum: representEnum(STATUS).split(", "),
   })
   @IsEnum(STATUS, {
     message: `${VALIDATION_ERROR.IS_ENUM} ${representEnum(STATUS)}`,
   })
-  readonly status: STATUS;
+  readonly status?: STATUS;
 }
