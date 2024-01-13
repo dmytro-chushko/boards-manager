@@ -1,9 +1,21 @@
 import { CardService } from "./card.service";
-import { Body, Controller, Get, Param, Post, Put, Query } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Put,
+  Query,
+} from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { Card } from "src/database/entities";
-import { ROUTE } from "src/utils/consts";
+import { ROUTE, SUCCESSFUL_RESPONSE } from "src/utils/consts";
 import { UpdateCardDto } from "./dto/update-card.dto";
+import { UpdateOrederDto } from "./dto/update-order.dto";
+import { DeleteResult } from "typeorm";
 
 @ApiTags("Cards")
 @Controller(ROUTE.CARD)
@@ -25,12 +37,32 @@ export class CardController {
   }
 
   @ApiOperation({ summary: "Update card data" })
-  @ApiResponse({ status: 200, type: [Card] })
+  @ApiResponse({ status: 200, description: SUCCESSFUL_RESPONSE.UPDATED })
   @Put(ROUTE.PARAM_ID)
   updateCardById(
     @Param("id") id: string,
     @Body() dto: UpdateCardDto,
   ): Promise<string> {
     return this.cardService.updateCardById(id, dto);
+  }
+
+  @ApiOperation({ summary: "Update card order" })
+  @ApiResponse({ status: 200, description: SUCCESSFUL_RESPONSE.UPDATED })
+  @Patch(ROUTE.PARAM_ID)
+  updateCardOrder(
+    @Param("id") id: string,
+    @Body() dto: UpdateOrederDto,
+  ): Promise<string> {
+    return this.cardService.updateCardOrder(id, dto);
+  }
+
+  @ApiOperation({ summary: "Remove card" })
+  @ApiResponse({
+    status: 200,
+    description: SUCCESSFUL_RESPONSE.DELETED,
+  })
+  @Delete(ROUTE.PARAM_ID)
+  removeBoardById(@Param("id") id: string): Promise<DeleteResult> {
+    return this.cardService.removeCardById(id);
   }
 }

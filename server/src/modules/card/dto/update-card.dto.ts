@@ -2,6 +2,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { IsEnum, IsNumber, IsString, MaxLength } from "class-validator";
 import { STATUS } from "src/utils/enums/Status";
 import { VALIDATION_ERROR } from "src/utils/error-messages";
+import { representEnum } from "src/utils/helpers/represet-enum";
 
 export class UpdateCardDto {
   @ApiProperty({ example: "My first task", description: "Title of the task" })
@@ -29,7 +30,7 @@ export class UpdateCardDto {
     example: "to-do",
   })
   @IsEnum(STATUS, {
-    message: `${VALIDATION_ERROR.IS_ENUM} ${JSON.stringify(STATUS)}`,
+    message: `${VALIDATION_ERROR.IS_ENUM} ${representEnum(STATUS)}`,
   })
   readonly status: STATUS;
 }

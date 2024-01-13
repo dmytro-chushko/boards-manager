@@ -7,5 +7,6 @@ export const enum ROUTE {
   BOARD = "board",
   CARD = "card",
   ALL = "all",
+  ORDER = "order",
   PARAM_ID = "/:id",
 }

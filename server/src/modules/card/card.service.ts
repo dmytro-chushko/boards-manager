@@ -1,12 +1,14 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Card } from "src/database/entities";
-import { Repository } from "typeorm";
+import { Between, DeleteResult, MoreThan, Repository } from "typeorm";
 import { BoardService } from "../board/board.service";
 import { STATUS } from "src/utils/enums/Status";
 import { UpdateCardDto } from "./dto/update-card.dto";
 import { EXCEPTION_MESSAGE } from "src/utils/error-messages";
 import { SUCCESSFUL_RESPONSE } from "src/utils/consts";
+import { UpdateOrederDto } from "./dto/update-order.dto";
+import { IDeleteResultRows, IOrder } from "src/utils/types";
 
 @Injectable()
 export class CardService {
@@ -57,7 +59,79 @@ export class CardService {
     return SUCCESSFUL_RESPONSE.UPDATED;
   }
 
-  // async updateCardOrder(id: string): Promise<string> {}
+  async updateCardOrder(
+    boardId: string,
+    dto: UpdateOrederDto,
+  ): Promise<string> {
+    const { draggedId, swappedId, draggedStatus } = dto;
 
-  // async reomveCardById(id: string): Promise<string> {}
+    const orders = await this.cardRepository
+      .createQueryBuilder("card")
+      .select(["card.id", "card.order"])
+      .where("card.id IN (:...ids)", { ids: [draggedId, swappedId] })
+      .groupBy("card.id")
+      .getRawMany<IOrder>();
+
+    if (orders.length < 2) {
+      throw new NotFoundException(EXCEPTION_MESSAGE.NOT_FOUND);
+    }
+
+    const draggedOrder = orders.find(
+      card => card.card_id === draggedId,
+    ).card_order;
+
+    const swappedOrder = orders.find(
+      card => card.card_id === swappedId,
+    ).card_order;
+
+    const whereOptions = {
+      board: { id: boardId },
+      status: draggedStatus,
+      order:
+        draggedOrder > swappedOrder
+          ? Between(swappedOrder, draggedOrder)
+          : Between(draggedOrder, swappedOrder),
+    };
+
+    await this.cardRepository[
+      draggedOrder > swappedOrder ? "increment" : "decrement"
+    ](whereOptions, "order", 1);
+
+    await this.cardRepository.update(draggedId, { order: swappedOrder });
+
+    console.log(
+      orders,
+      `draggedOrder - ${draggedOrder}, swappedOrder - ${swappedOrder}`,
+    );
+
+    return SUCCESSFUL_RESPONSE.UPDATED;
+  }
+
+  async removeCardById(id: string): Promise<DeleteResult> {
+    const result = await this.cardRepository
+      .createQueryBuilder()
+      .delete()
+      .from(Card)
+      .where("id = :id", { id })
+      .returning(["order", "status", "board.id"])
+      .execute();
+
+    if (!result.affected) {
+      throw new NotFoundException(EXCEPTION_MESSAGE.NOT_FOUND);
+    }
+
+    const { order, status, boardId } = result.raw[0] as IDeleteResultRows;
+
+    await this.cardRepository.decrement(
+      {
+        board: { id: boardId },
+        status,
+        order: MoreThan(order),
+      },
+      "order",
+      1,
+    );
+
+    return result;
+  }
 }
