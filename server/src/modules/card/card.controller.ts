@@ -10,7 +10,7 @@ import {
   Put,
   Query,
 } from "@nestjs/common";
-import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { Card } from "src/database/entities";
 import { ROUTE, SUCCESSFUL_RESPONSE } from "src/utils/consts";
 import { UpdateCardDto } from "./dto/update-card.dto";
@@ -23,8 +23,12 @@ export class CardController {
 
   @ApiOperation({ summary: "Create new card" })
   @ApiResponse({ status: 201, type: Card })
+  @ApiParam({
+    name: "id",
+    description: "String ID of the board that card belongs",
+  })
   @Post(ROUTE.PARAM_ID)
-  createBoard(@Param("id") id: string): Promise<Card> {
+  createCard(@Param("id") id: string): Promise<Card> {
     return this.cardService.createCard(id);
   }
 
