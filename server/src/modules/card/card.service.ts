@@ -66,6 +66,7 @@ export class CardService {
     const { draggedId, swappedId, draggedStatus, swappedStatus } = dto;
 
     if (!swappedId) {
+      //When card dragged to the empty status box
       const { draggedOrder } = await this.cardRepository
         .createQueryBuilder("card")
         .select("card.order", "draggedOrder")

@@ -7,7 +7,7 @@ import { CustomValidationPipe } from "./pipe/custom-validation.pipe";
 
 async function bootstrap() {
   const PORT = process.env.PORT || 5000;
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
   const { httpAdapter } = app.get(HttpAdapterHost);
 
   const config = new DocumentBuilder()
