@@ -1,6 +1,7 @@
 export enum BGC {
 	PRIMARY = "#F1EFED",
-	SECONDARY = "#DBDBDB",
+	SECONDARY = "#6B7280",
+	ACCENT = "#4B5563",
 	DARK = "#6B7280",
 	BLACK = "#000000",
 	MODAL = "rgba(0,0,0,0.3)",

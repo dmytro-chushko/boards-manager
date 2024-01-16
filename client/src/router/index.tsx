@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import { BoardSearch } from "components";
 import { BoardDetails, Boards } from "pages";
+import { BoardSearch } from "modules";
 import { ROUTE } from "utils/consts";
 
 export const MainRouter = () => (

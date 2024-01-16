@@ -36,6 +36,8 @@ export const GlobalStyle = createGlobalStyle`
 			cursor: pointer;
 			background: transparent;
 			border: none;
+
+			transition: ${COMMON.TRANSITION};
 		}
 
 		ul,

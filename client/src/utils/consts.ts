@@ -12,3 +12,8 @@ export const enum QUERY_URL {
 	BOARD = "board",
 	CARD = "card",
 }
+
+export const enum ENTITY {
+	BOARD = "board",
+	CARD = "card",
+}
