@@ -1,7 +1,9 @@
-import { FONT } from "styles";
+import { COLOR, FONT } from "styles";
 
 export const TRANSITION = "all ease-in-out 0.2s";
 export const BORDER = "2px solid #000000";
+export const INPUT_BORDER = `0 0 0 0.125rem ${COLOR.BGC.SECONDARY}`;
+export const INPUT_BORDER_ERROR = `0 0 0 0.125rem ${COLOR.BGC.ERROR}`;
 export const DISABLED_BORDER = `2px solid ${FONT.COLOR.DISABLED}`;
 export const BORDER_RADIUS = "0.5rem";
 export const BORDER_INNER_RADIUS = "0.25rem";

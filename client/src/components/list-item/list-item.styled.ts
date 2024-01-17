@@ -1,12 +1,9 @@
 import styled, { css } from "styled-components";
 import { COLOR, COMMON, SIZE } from "styles";
+import { I$Entity } from "types";
 import { ENTITY } from "utils/consts";
 
-interface IItem {
-	$entity: ENTITY;
-}
-
-export const StyledItem = styled.li<IItem>`
+export const StyledItem = styled.li<I$Entity>`
 	${({ $entity }) => {
 		const items = {
 			[ENTITY.BOARD]: {

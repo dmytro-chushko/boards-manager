@@ -12,6 +12,7 @@ export const errorHandler: Middleware =
 				toast.error((action.error.data as { message: string }).message);
 			}
 
+			console.log(action.error);
 			toast.error(action.error.message);
 		}
 

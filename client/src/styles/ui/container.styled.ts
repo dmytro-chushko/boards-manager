@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { SIZE } from "styles";
+import { FONT, SIZE } from "styles";
 
 export const Container = styled.main`
 	padding-left: ${SIZE.GENERAL.M};
@@ -23,4 +23,16 @@ export const ButtonsWrapper = styled.div`
 	align-items: center;
 	justify-content: end;
 	gap: ${SIZE.GENERAL.XS};
+`;
+
+export const FormContainer = styled.form`
+	margin-bottom: ${SIZE.GENERAL.XS};
+`;
+
+export const ErrorContainer = styled.p`
+	padding: ${SIZE.GENERAL.XXS};
+
+	font-size: ${FONT.SIZE.SMALL};
+
+	color: ${FONT.COLOR.ERROR};
 `;

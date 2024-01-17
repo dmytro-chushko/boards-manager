@@ -1,7 +1,8 @@
 export enum SIZE {
-	REGULAR = "14px",
-	MEDIUM = "1.142em",
-	LARGE = "1.285em",
+	SMALL = "0.75rem",
+	REGULAR = "0.875rem",
+	MEDIUM = "1rem",
+	LARGE = "1.25rem",
 }
 
 export enum COLOR {

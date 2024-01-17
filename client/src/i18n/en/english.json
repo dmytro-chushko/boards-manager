@@ -1,0 +1,6 @@
+{
+	"validation": {
+		"maxChar": "Not more then {{num}} characters",
+		"required": "It should be filled"
+	}
+}

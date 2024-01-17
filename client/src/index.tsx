@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 
 import { App } from "app";
 import { store } from "./redux-dir/store";
+import "i18n/config";
 
 import "./index.css";
 import { GlobalStyle } from "styles/global.styled";
