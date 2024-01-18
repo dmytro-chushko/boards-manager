@@ -11,5 +11,5 @@ export const StyledInput = styled.input<IStyledInput>`
 
 	border-radius: ${COMMON.BORDER_INNER_RADIUS};
 	box-shadow: ${({ $isError }) =>
-		$isError ? COMMON.INPUT_BORDER : COMMON.INPUT_BORDER_ERROR};
+		$isError ? COMMON.INPUT_BORDER_ERROR : COMMON.INPUT_BORDER};
 `;

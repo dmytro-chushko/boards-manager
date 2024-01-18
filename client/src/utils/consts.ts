@@ -23,3 +23,15 @@ export const enum MAX_CHAR {
 	TITLE = 16,
 	DESCR = 32,
 }
+
+export const enum STATUS_LABEL {
+	TODO = "To Do",
+	IN_PROGRESS = "In Progress",
+	DONE = "Done",
+}
+
+export const enum STATUS_VALUE {
+	TODO = "to-do",
+	IN_PROGRESS = "in-progress",
+	DONE = "done",
+}

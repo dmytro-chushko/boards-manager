@@ -24,7 +24,7 @@ export const boardApi = createApi({
 			}),
 			invalidatesTags: ["Board"],
 		}),
-		updateBoard: builder.mutation<string, IUpdateBoard>({
+		updateBoard: builder.mutation<{ message: string }, IUpdateBoard>({
 			query: ({ id, ...body }) => ({
 				url: id,
 				method: "PUT",
@@ -32,7 +32,7 @@ export const boardApi = createApi({
 			}),
 			invalidatesTags: ["Board"],
 		}),
-		removeBoard: builder.mutation<string, string>({
+		removeBoard: builder.mutation<{ message: string }, string>({
 			query: id => ({
 				url: id,
 				method: "DELETE",

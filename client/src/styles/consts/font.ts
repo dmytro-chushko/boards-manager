@@ -9,7 +9,7 @@ export enum COLOR {
 	PRIMARY = "#000000",
 	SECONDARY = "#FFFFFF",
 	ACCENT = "#F2EA86",
-	ERROR = "#DC2626",
+	ERROR = "#EF4444",
 	DISABLED = "#6B7280",
 }
 

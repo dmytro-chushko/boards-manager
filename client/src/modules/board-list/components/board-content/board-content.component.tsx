@@ -8,11 +8,18 @@ import { IUpdateBoardForm } from "types";
 import { ENTITY, MAX_CHAR } from "utils/consts";
 import { modifyString } from "utils/helpers";
 import { useUpdateBoardSchema } from "utils/validation";
+import { ReactComponent as Enter } from "assets/enter.svg";
 
 import { StyledInput } from "styles/ui/input.styled";
 import { StyledTitle } from "styles/ui/typography.styled";
-import { FormContainer } from "styles/ui/container.styled";
+import {
+	ErrorContainer,
+	FlexWrapper,
+	FormContainer,
+} from "styles/ui/container.styled";
 import { useUpdateBoardMutation } from "redux-dir/api/board-api";
+import { Button } from "styles/ui/button.styled";
+import { useNavigate } from "react-router-dom";
 
 interface IBoardContent extends IListItemChildrenProps {
 	id: string;
@@ -25,7 +32,8 @@ export const BoardContent: FC<IBoardContent> = ({
 	isEdit,
 	setIsEdit,
 }) => {
-	const [updateBoard, { isLoading }] = useUpdateBoardMutation();
+	const navigate = useNavigate();
+	const [updateBoard] = useUpdateBoardMutation();
 	const editBoxRef = useRef<HTMLDivElement>(null);
 	const schema = useUpdateBoardSchema();
 	const {
@@ -46,6 +54,8 @@ export const BoardContent: FC<IBoardContent> = ({
 		await updateBoard({ id, title });
 	};
 
+	const handleGoToBoard = () => navigate(`/${id}`);
+
 	useOuterClick<HTMLDivElement>(editBoxRef, handleOuterClick);
 
 	useEffect(() => {
@@ -58,18 +68,35 @@ export const BoardContent: FC<IBoardContent> = ({
 		}
 	}, [inputTitle]);
 
-	return isEdit ? (
-		<div ref={editBoxRef}>
-			<FormContainer onSubmit={handleSubmit(data => console.log(data))}>
-				<StyledInput
-					type="text"
-					$isError={!!errors}
-					defaultValue={modifiedTitle}
-					{...register("title")}
-				/>
-			</FormContainer>
-		</div>
-	) : (
-		<StyledTitle $entity={ENTITY.BOARD}>{modifiedTitle}</StyledTitle>
+	return (
+		<>
+			{isEdit ? (
+				<div ref={editBoxRef}>
+					<FormContainer onSubmit={handleSubmit(data => console.log(data))}>
+						<StyledInput
+							type="text"
+							$isError={!!errors.title}
+							defaultValue={modifiedTitle}
+							{...register("title")}
+						/>
+						{errors.title && (
+							<ErrorContainer>{errors.title.message}</ErrorContainer>
+						)}
+					</FormContainer>
+				</div>
+			) : (
+				<FlexWrapper>
+					<StyledTitle $entity={ENTITY.BOARD}>{modifiedTitle}</StyledTitle>
+					<Button
+						type="button"
+						$width="2rem"
+						$height="2rem"
+						onClick={handleGoToBoard}
+					>
+						<Enter />
+					</Button>
+				</FlexWrapper>
+			)}
+		</>
 	);
 };

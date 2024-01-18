@@ -4,6 +4,6 @@ export enum BGC {
 	ACCENT = "#4B5563",
 	DARK = "#6B7280",
 	BLACK = "#000000",
-	ERROR = "#DC2626",
+	ERROR = "#EF4444",
 	MODAL = "rgba(0,0,0,0.3)",
 }

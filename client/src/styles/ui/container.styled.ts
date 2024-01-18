@@ -36,3 +36,9 @@ export const ErrorContainer = styled.p`
 
 	color: ${FONT.COLOR.ERROR};
 `;
+
+export const FlexWrapper = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+`;
