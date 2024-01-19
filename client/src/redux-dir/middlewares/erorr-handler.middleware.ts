@@ -8,10 +8,6 @@ import { toast } from "react-toastify";
 export const errorHandler: Middleware =
 	(api: MiddlewareAPI) => next => action => {
 		if (isRejectedWithValue(action)) {
-			if ("data" in action.error) {
-				toast.error((action.error.data as { message: string }).message);
-			}
-
 			if (
 				typeof action === "object" &&
 				"payload" in action &&
@@ -23,6 +19,10 @@ export const errorHandler: Middleware =
 				"message" in action.payload.data
 			) {
 				toast.error((action.payload.data as { message: string }).message);
+			}
+
+			if (action.error.message === "Rejected") {
+				toast.error("Something went wrong");
 			}
 		}
 

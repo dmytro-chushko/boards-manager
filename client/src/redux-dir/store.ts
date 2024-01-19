@@ -1,16 +1,20 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import { boardApi } from "./api/board-api";
+import { boardApi, cardApi } from "./api";
 import { errorHandler } from "./middlewares/erorr-handler.middleware";
-import { editEntity } from "./reducers/edit-entity.reducer";
+import { loaderStatus } from "./reducers/is-loading.reducer";
 
 export const store = configureStore({
 	reducer: {
-		editEntity: editEntity.reducer,
+		loaderStatus: loaderStatus.reducer,
 		[boardApi.reducerPath]: boardApi.reducer,
+		[cardApi.reducerPath]: cardApi.reducer,
 	},
 	middleware: getDefaultMiddleware =>
-		getDefaultMiddleware().concat(boardApi.middleware).concat(errorHandler),
+		getDefaultMiddleware()
+			.concat(boardApi.middleware)
+			.concat(cardApi.middleware)
+			.concat(errorHandler),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

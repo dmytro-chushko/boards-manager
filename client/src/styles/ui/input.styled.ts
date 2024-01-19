@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { COMMON, SIZE } from "styles";
+import { COMMON, FONT, SIZE } from "styles";
 
 interface IStyledInput {
 	$isError?: boolean;
@@ -8,6 +8,8 @@ interface IStyledInput {
 export const StyledInput = styled.input<IStyledInput>`
 	width: 100%;
 	padding: ${SIZE.GENERAL.XS};
+
+	font-size: ${FONT.SIZE.MEDIUM};
 
 	border-radius: ${COMMON.BORDER_INNER_RADIUS};
 	box-shadow: ${({ $isError }) =>

@@ -48,7 +48,7 @@ export class BoardController {
   updateBoard(
     @Param("id") id: string,
     @Body() updateBoardDto: UpdateBoardDto,
-  ): Promise<string> {
+  ): Promise<{ message: string }> {
     return this.boardService.updateBoard(id, updateBoardDto);
   }
 
@@ -58,7 +58,7 @@ export class BoardController {
     description: SUCCESSFUL_RESPONSE.DELETED,
   })
   @Delete(ROUTE.PARAM_ID)
-  removeBoardById(@Param("id") id: string): Promise<string> {
+  removeBoardById(@Param("id") id: string): Promise<{ message: string }> {
     return this.boardService.removeBoardById(id);
   }
 }

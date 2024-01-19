@@ -35,3 +35,8 @@ export const enum STATUS_VALUE {
 	IN_PROGRESS = "in-progress",
 	DONE = "done",
 }
+
+export const enum BUTTON_LABEL {
+	EDIT = "edit",
+	DELETE = "delete",
+}

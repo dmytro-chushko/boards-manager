@@ -1,9 +1,18 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { FONT, SIZE } from "styles";
 
 export const Container = styled.main`
 	padding-left: ${SIZE.GENERAL.M};
 	padding-right: ${SIZE.GENERAL.M};
+`;
+
+interface I$FHContainer {
+	$decreaseIn?: string;
+}
+
+export const FullHeightContainer = styled(Container)<I$FHContainer>`
+	height: ${({ $decreaseIn }) =>
+		$decreaseIn ? `calc(100dvh - ${$decreaseIn})` : "100dvh"};
 `;
 
 export const Header = styled.header`
@@ -25,10 +34,6 @@ export const ButtonsWrapper = styled.div`
 	gap: ${SIZE.GENERAL.XS};
 `;
 
-export const FormContainer = styled.form`
-	margin-bottom: ${SIZE.GENERAL.XS};
-`;
-
 export const ErrorContainer = styled.p`
 	padding: ${SIZE.GENERAL.XXS};
 
@@ -41,4 +46,17 @@ export const FlexWrapper = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+`;
+
+interface I$FlexProps {
+	$gap?: string;
+}
+
+export const RightFlexWrapper = styled(FlexWrapper)<I$FlexProps>`
+	justify-content: start;
+	${({ $gap }) =>
+		$gap &&
+		css`
+			gap: ${$gap};
+		`};
 `;

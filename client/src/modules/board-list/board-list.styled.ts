@@ -3,6 +3,6 @@ import { SIZE } from "styles";
 
 export const StyledList = styled.ul`
 	display: flex;
-	align-items: center;
+	align-items: start;
 	gap: ${SIZE.GENERAL.XS};
 `;

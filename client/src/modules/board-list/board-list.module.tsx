@@ -1,20 +1,21 @@
 import { FC } from "react";
 
 import { ListItem } from "components";
-import { Loader } from "components";
 import { useGetAllBoardsQuery } from "redux-dir/api/board-api";
 
 import { StyledList } from "./board-list.styled";
 import { BoardContent } from "./components/board-content";
 import { ENTITY } from "utils/consts";
 import { BoardStatus } from "./components/board-status";
+import { useLoader } from "hooks";
 
 export const BoardList: FC = () => {
-	const { data, isLoading: isLoader } = useGetAllBoardsQuery();
+	const { data, isLoading } = useGetAllBoardsQuery();
+
+	useLoader(isLoading);
 
 	return (
 		<div>
-			<Loader isShown={isLoader} />
 			<StyledList>
 				{data &&
 					data.length &&

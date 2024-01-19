@@ -5,12 +5,12 @@ export const enum GENERAL {
 	M = "1rem",
 }
 
-export const enum CREATION_BUTTON {
+export const enum CONTROL_BUTTON {
 	WIDTH = "2rem",
 	HEIGHT = "2rem",
 }
 
 export const enum ITEM_WIDTH {
 	BOARD = "20rem",
-	CARD = "20rem",
+	CARD = "18rem",
 }

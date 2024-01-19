@@ -1,21 +1,30 @@
-import { Children, FC, ReactElement, cloneElement, useState } from "react";
+import {
+	Children,
+	FC,
+	ReactElement,
+	cloneElement,
+	useEffect,
+	useState,
+} from "react";
+import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 
 import { ReactComponent as Edit } from "assets/edit.svg";
 import { ReactComponent as Trash } from "assets/trash.svg";
-
-import { Button } from "styles/ui/button.styled";
-import { ButtonsWrapper } from "styles/ui/container.styled";
-import { StyledItem } from "./list-item.styled";
-import { ENTITY } from "utils/consts";
+import { BUTTON_LABEL, ENTITY } from "utils/consts";
 import { SetState } from "types";
 import { useRemoveBoardMutation } from "redux-dir/api/board-api";
-import { toast } from "react-toastify";
-import { Loader } from "components/loader";
+import { useRemoveCardMutation } from "redux-dir/api/card-api";
+import { useLoader } from "hooks";
+
+import { Button, ButtonCover } from "styles/ui/button.styled";
+import { ButtonsWrapper } from "styles/ui/container.styled";
+import { StyledItem } from "./list-item.styled";
 
 interface IListItemProps {
 	id: string;
 	entity: ENTITY;
-	children: ReactElement[];
+	children: ReactElement[] | ReactElement;
 }
 
 export interface IListItemChildrenProps {
@@ -24,21 +33,30 @@ export interface IListItemChildrenProps {
 }
 
 export const ListItem: FC<IListItemProps> = ({ id, entity, children }) => {
+	const { t } = useTranslation();
 	const [isEdit, setIsEdit] = useState<boolean>(false);
-	const [removeBoard, { isLoading }] = useRemoveBoardMutation();
+	const [
+		removeBoard,
+		{ isLoading: isBoardRemoving, isSuccess: isBoardRemoved },
+	] = useRemoveBoardMutation();
+	const [removeCard, { isLoading: isCardRemoving, isSuccess: isCardRemoved }] =
+		useRemoveCardMutation();
 	const buttons = [
 		{
 			icon: <Edit />,
+			label: BUTTON_LABEL.EDIT,
 			handleClick: () => setIsEdit(!isEdit),
 		},
 		{
 			icon: <Trash />,
+			label: BUTTON_LABEL.DELETE,
 			handleClick: {
 				[ENTITY.BOARD]: async () => {
-					const response = await removeBoard(id);
-					if ("data" in response) toast.success(response.data.message);
+					await removeBoard(id);
 				},
-				[ENTITY.CARD]: () => console.log("click"),
+				[ENTITY.CARD]: async () => {
+					await removeCard(id);
+				},
 			},
 		},
 	];
@@ -52,11 +70,20 @@ export const ListItem: FC<IListItemProps> = ({ id, entity, children }) => {
 		});
 	};
 
+	useEffect(() => {
+		isBoardRemoved &&
+			toast.success(t("notfication.deleting", { entity: ENTITY.BOARD }));
+		isCardRemoved &&
+			toast.success(t("notfication.deleting", { entity: ENTITY.CARD }));
+	}, [isBoardRemoved, isCardRemoved, t]);
+
+	useLoader(isBoardRemoving || isCardRemoving);
+
 	return (
-		<StyledItem $entity={ENTITY.BOARD}>
+		<StyledItem $entity={entity}>
 			{renderChildren()}
 			<ButtonsWrapper>
-				{buttons.map(({ icon, handleClick }, i) => (
+				{buttons.map(({ icon, label, handleClick }, i) => (
 					<Button
 						key={i}
 						$width="2rem"
@@ -69,10 +96,10 @@ export const ListItem: FC<IListItemProps> = ({ id, entity, children }) => {
 						}
 					>
 						{icon}
+						<ButtonCover data-label={label + id} />
 					</Button>
 				))}
 			</ButtonsWrapper>
-			<Loader isShown={isLoading} />
 		</StyledItem>
 	);
 };

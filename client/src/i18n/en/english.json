@@ -1,6 +1,15 @@
 {
 	"validation": {
-		"maxChar": "Not more then {{num}} characters",
-		"required": "It should be filled"
+		"maxChar": "not more then {{num}} characters",
+		"required": "it should be filled"
+	},
+	"notification": {
+		"rejected": "Something went wrong",
+		"deleting": "Your {{entity}} successfully deleted"
+	},
+	"statusLabel": {
+		"todo": "To Do",
+		"inProgress": "In Progress",
+		"done": "Done"
 	}
 }

@@ -6,6 +6,7 @@ import { ReactComponent as AddIcon } from "assets/plus.svg";
 
 import { Button } from "styles/ui/button.styled";
 import { SIZE } from "styles";
+import { useLoader } from "hooks";
 
 interface ICreationButtonProps {
 	entity: ENTITY;
@@ -14,6 +15,8 @@ interface ICreationButtonProps {
 export const CreationButton: FC<ICreationButtonProps> = ({ entity }) => {
 	const [createBoard, { isLoading: isLoadingBoardCreation }] =
 		useCreateBoardMutation();
+	const [createCard, { isLoading: isLoadingCardCreation }] =
+		useCreateBoardMutation();
 
 	const entities = {
 		[ENTITY.BOARD]: {
@@ -21,15 +24,17 @@ export const CreationButton: FC<ICreationButtonProps> = ({ entity }) => {
 			isLoading: isLoadingBoardCreation,
 		},
 		[ENTITY.CARD]: {
-			handler: () => console.log(ENTITY.CARD),
-			isLoading: false,
+			handler: async () => await createCard(),
+			isLoading: isLoadingCardCreation,
 		},
 	};
 
+	useLoader(entities[entity].isLoading);
+
 	return (
 		<Button
-			$width={SIZE.CREATION_BUTTON.WIDTH}
-			$height={SIZE.CREATION_BUTTON.HEIGHT}
+			$width={SIZE.CONTROL_BUTTON.WIDTH}
+			$height={SIZE.CONTROL_BUTTON.HEIGHT}
 			type="button"
 			onClick={entities[entity].handler}
 		>

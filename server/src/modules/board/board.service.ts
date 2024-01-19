@@ -22,6 +22,7 @@ export class BoardService {
   async getAllBoards(): Promise<Board[]> {
     return await this.boardRepository.find({
       relations: { cards: true },
+      order: { updatedAt: "DESC" },
     });
   }
 
@@ -37,7 +38,7 @@ export class BoardService {
   async updateBoard(
     id: string,
     updateBoardDto: UpdateBoardDto,
-  ): Promise<string> {
+  ): Promise<{ message: string }> {
     const board = await checkAndReturnEntity<Board>(this.boardRepository, {
       where: { id },
     });
@@ -47,16 +48,16 @@ export class BoardService {
       ...updateBoardDto,
     });
 
-    return SUCCESSFUL_RESPONSE.UPDATED;
+    return { message: SUCCESSFUL_RESPONSE.UPDATED };
   }
 
-  async removeBoardById(id: string): Promise<string> {
+  async removeBoardById(id: string): Promise<{ message: string }> {
     const board = await checkAndReturnEntity<Board>(this.boardRepository, {
       where: { id },
     });
 
     await this.boardRepository.remove(board);
 
-    return SUCCESSFUL_RESPONSE.DELETED;
+    return { message: SUCCESSFUL_RESPONSE.DELETED };
   }
 }

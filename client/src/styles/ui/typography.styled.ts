@@ -27,3 +27,7 @@ export const StyledTitle = styled(StyledParagaph)`
 	font-size: ${FONT.SIZE.MEDIUM};
 	font-weight: ${FONT.WEIGHT.BOLD};
 `;
+
+export const ColumnTitle = styled(StyledTitle)`
+	font-size: ${FONT.SIZE.LARGE};
+`;

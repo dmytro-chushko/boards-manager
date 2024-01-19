@@ -8,7 +8,6 @@ import {
   Patch,
   Post,
   Put,
-  Query,
 } from "@nestjs/common";
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { Card } from "src/database/entities";
@@ -34,8 +33,8 @@ export class CardController {
 
   @ApiOperation({ summary: "Get all cards by board id" })
   @ApiResponse({ status: 200, type: [Card] })
-  @Get(ROUTE.ALL)
-  getAllCardsByBoard(@Query("id") id: string): Promise<Card[]> {
+  @Get(ROUTE.PARAM_ID)
+  getAllCardsByBoard(@Param("id") id: string): Promise<Card[]> {
     return this.cardService.geAllCardsByBoardId(id);
   }
 
@@ -45,7 +44,7 @@ export class CardController {
   updateCardById(
     @Param("id") id: string,
     @Body() dto: UpdateCardDto,
-  ): Promise<string> {
+  ): Promise<{ message: string }> {
     return this.cardService.updateCardById(id, dto);
   }
 
@@ -55,7 +54,7 @@ export class CardController {
   updateCardOrder(
     @Param("id") id: string,
     @Body() dto: UpdateOrederDto,
-  ): Promise<string> {
+  ): Promise<{ message: string }> {
     return this.cardService.updateCardOrder(id, dto);
   }
 
@@ -65,7 +64,7 @@ export class CardController {
     description: SUCCESSFUL_RESPONSE.DELETED,
   })
   @Delete(ROUTE.PARAM_ID)
-  removeBoardById(@Param("id") id: string): Promise<string> {
+  removeBoardById(@Param("id") id: string): Promise<{ message: string }> {
     return this.cardService.removeCardById(id);
   }
 }

@@ -5,21 +5,18 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { IListItemChildrenProps } from "components/list-item/list-item.component";
 import { useDebounce, useOuterClick } from "hooks";
 import { IUpdateBoardForm } from "types";
-import { ENTITY, MAX_CHAR } from "utils/consts";
+import { BUTTON_LABEL, ENTITY, MAX_CHAR } from "utils/consts";
 import { modifyString } from "utils/helpers";
 import { useUpdateBoardSchema } from "utils/validation";
 import { ReactComponent as Enter } from "assets/enter.svg";
 
 import { StyledInput } from "styles/ui/input.styled";
 import { StyledTitle } from "styles/ui/typography.styled";
-import {
-	ErrorContainer,
-	FlexWrapper,
-	FormContainer,
-} from "styles/ui/container.styled";
+import { ErrorContainer, FlexWrapper } from "styles/ui/container.styled";
 import { useUpdateBoardMutation } from "redux-dir/api/board-api";
 import { Button } from "styles/ui/button.styled";
 import { useNavigate } from "react-router-dom";
+import { SIZE } from "styles";
 
 interface IBoardContent extends IListItemChildrenProps {
 	id: string;
@@ -56,7 +53,11 @@ export const BoardContent: FC<IBoardContent> = ({
 
 	const handleGoToBoard = () => navigate(`/${id}`);
 
-	useOuterClick<HTMLDivElement>(editBoxRef, handleOuterClick);
+	useOuterClick<HTMLDivElement>(
+		editBoxRef,
+		handleOuterClick,
+		BUTTON_LABEL.EDIT + id,
+	);
 
 	useEffect(() => {
 		setFocus("title");
@@ -64,15 +65,15 @@ export const BoardContent: FC<IBoardContent> = ({
 
 	useEffect(() => {
 		if (isEdit) {
-			handleSubmit(onSubmit, errors => console.log(errors))();
+			handleSubmit(onSubmit)();
 		}
 	}, [inputTitle]);
 
 	return (
 		<>
 			{isEdit ? (
-				<div ref={editBoxRef}>
-					<FormContainer onSubmit={handleSubmit(data => console.log(data))}>
+				<div ref={editBoxRef} style={{ marginBottom: SIZE.GENERAL.XS }}>
+					<form onSubmit={handleSubmit(data => console.log(data))}>
 						<StyledInput
 							type="text"
 							$isError={!!errors.title}
@@ -82,10 +83,10 @@ export const BoardContent: FC<IBoardContent> = ({
 						{errors.title && (
 							<ErrorContainer>{errors.title.message}</ErrorContainer>
 						)}
-					</FormContainer>
+					</form>
 				</div>
 			) : (
-				<FlexWrapper>
+				<FlexWrapper style={{ marginBottom: SIZE.GENERAL.XS }}>
 					<StyledTitle $entity={ENTITY.BOARD}>{modifiedTitle}</StyledTitle>
 					<Button
 						type="button"

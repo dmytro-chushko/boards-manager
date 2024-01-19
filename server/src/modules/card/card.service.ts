@@ -42,9 +42,10 @@ export class CardService {
       .getMany();
   }
 
-  // async getCardById(id: string): Promise<Card> {}
-
-  async updateCardById(id: string, dto: UpdateCardDto): Promise<string> {
+  async updateCardById(
+    id: string,
+    dto: UpdateCardDto,
+  ): Promise<{ message: string }> {
     const result = await this.cardRepository
       .createQueryBuilder()
       .update(Card)
@@ -56,17 +57,19 @@ export class CardService {
       throw new NotFoundException(EXCEPTION_MESSAGE.NOT_FOUND);
     }
 
-    return SUCCESSFUL_RESPONSE.UPDATED;
+    return { message: SUCCESSFUL_RESPONSE.UPDATED };
   }
 
   async updateCardOrder(
     boardId: string,
     dto: UpdateOrederDto,
-  ): Promise<string> {
+  ): Promise<{ message: string }> {
     const { draggedId, swappedId, draggedStatus, swappedStatus } = dto;
 
     if (!swappedId) {
+      // ------------------------------------------
       //When card dragged to the empty status box
+      // ------------------------------------------
       const { draggedOrder } = await this.cardRepository
         .createQueryBuilder("card")
         .select("card.order", "draggedOrder")
@@ -89,7 +92,7 @@ export class CardService {
 
       await this.updateCardById(draggedId, { order: 1, status: swappedStatus });
 
-      return SUCCESSFUL_RESPONSE.UPDATED;
+      return { message: SUCCESSFUL_RESPONSE.UPDATED };
     }
 
     const orders = await this.cardRepository
@@ -112,7 +115,9 @@ export class CardService {
     ).card_order;
 
     if (draggedStatus === swappedStatus) {
+      // ------------------------------------------
       //Replace cards with one status
+      // ------------------------------------------
       const whereOptions = {
         board: { id: boardId },
         status: draggedStatus,
@@ -128,7 +133,9 @@ export class CardService {
 
       await this.updateCardById(draggedId, { order: swappedOrder });
     } else {
+      // ------------------------------------------
       //Replace cards with defferent statuses
+      // ------------------------------------------
       await this.cardRepository.decrement(
         {
           board: { id: boardId },
@@ -160,10 +167,10 @@ export class CardService {
       `draggedOrder - ${draggedOrder}, swappedOrder - ${swappedOrder}`,
     );
 
-    return SUCCESSFUL_RESPONSE.UPDATED;
+    return { message: SUCCESSFUL_RESPONSE.UPDATED };
   }
 
-  async removeCardById(id: string): Promise<string> {
+  async removeCardById(id: string): Promise<{ message: string }> {
     const result = await this.cardRepository
       .createQueryBuilder()
       .delete()
@@ -188,6 +195,6 @@ export class CardService {
       1,
     );
 
-    return SUCCESSFUL_RESPONSE.DELETED;
+    return { message: SUCCESSFUL_RESPONSE.DELETED };
   }
 }

@@ -8,6 +8,8 @@ interface IButton {
 }
 
 export const Button = styled.button<IButton>`
+	position: relative;
+
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -43,4 +45,15 @@ export const Button = styled.button<IButton>`
 	&:active:not([disabled]) {
 		transform: scale(1.1);
 	}
+`;
+
+export const ButtonCover = styled.div`
+	position: absolute;
+	top: 0;
+	left: 0;
+
+	width: 100%;
+	height: 100%;
+
+	background-color: transparent;
 `;
