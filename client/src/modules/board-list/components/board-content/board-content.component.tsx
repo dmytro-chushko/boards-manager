@@ -67,37 +67,34 @@ export const BoardContent: FC<IBoardContent> = ({
 		if (isEdit) {
 			handleSubmit(onSubmit)();
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [inputTitle]);
 
-	return (
-		<>
-			{isEdit ? (
-				<div ref={editBoxRef} style={{ marginBottom: SIZE.GENERAL.XS }}>
-					<form onSubmit={handleSubmit(data => console.log(data))}>
-						<StyledInput
-							type="text"
-							$isError={!!errors.title}
-							defaultValue={modifiedTitle}
-							{...register("title")}
-						/>
-						{errors.title && (
-							<ErrorContainer>{errors.title.message}</ErrorContainer>
-						)}
-					</form>
-				</div>
-			) : (
-				<FlexWrapper style={{ marginBottom: SIZE.GENERAL.XS }}>
-					<StyledTitle $entity={ENTITY.BOARD}>{modifiedTitle}</StyledTitle>
-					<Button
-						type="button"
-						$width="2rem"
-						$height="2rem"
-						onClick={handleGoToBoard}
-					>
-						<Enter />
-					</Button>
-				</FlexWrapper>
-			)}
-		</>
+	return isEdit ? (
+		<div ref={editBoxRef} style={{ marginBottom: SIZE.GENERAL.XS }}>
+			<form>
+				<StyledInput
+					type="text"
+					$isError={!!errors.title}
+					defaultValue={modifiedTitle}
+					{...register("title")}
+				/>
+				{errors.title && (
+					<ErrorContainer>{errors.title.message}</ErrorContainer>
+				)}
+			</form>
+		</div>
+	) : (
+		<FlexWrapper style={{ marginBottom: SIZE.GENERAL.XS }}>
+			<StyledTitle $entity={ENTITY.BOARD}>{modifiedTitle}</StyledTitle>
+			<Button
+				type="button"
+				$width="2rem"
+				$height="2rem"
+				onClick={handleGoToBoard}
+			>
+				<Enter />
+			</Button>
+		</FlexWrapper>
 	);
 };

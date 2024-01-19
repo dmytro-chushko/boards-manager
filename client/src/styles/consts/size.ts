@@ -12,5 +12,5 @@ export const enum CONTROL_BUTTON {
 
 export const enum ITEM_WIDTH {
 	BOARD = "20rem",
-	CARD = "18rem",
+	CARD = "100%",
 }

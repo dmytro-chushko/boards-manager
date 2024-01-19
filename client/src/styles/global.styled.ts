@@ -45,7 +45,8 @@ export const GlobalStyle = createGlobalStyle`
 			list-style: none;
 		}
 
-		input {
+		input,
+		textarea {
 			border: none;
 			outline: none;
 		}

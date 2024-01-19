@@ -6,7 +6,7 @@ export const enum ROUTE {
 export const enum REDUCER_PATH {
 	BOARD_API = "board-api",
 	CARD_API = "card-api",
-	IS_EDIT = "is-edit",
+	IS_LOADING = "is-loading",
 }
 
 export const enum QUERY_URL {
@@ -21,7 +21,7 @@ export const enum ENTITY {
 
 export const enum MAX_CHAR {
 	TITLE = 16,
-	DESCR = 32,
+	DESCR = 62,
 }
 
 export const enum STATUS_LABEL {

@@ -25,6 +25,6 @@ export const errorHandler: Middleware =
 				toast.error("Something went wrong");
 			}
 		}
-
+		// console.log(action);
 		return next(action);
 	};

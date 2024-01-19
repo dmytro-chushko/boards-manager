@@ -72,9 +72,9 @@ export const ListItem: FC<IListItemProps> = ({ id, entity, children }) => {
 
 	useEffect(() => {
 		isBoardRemoved &&
-			toast.success(t("notfication.deleting", { entity: ENTITY.BOARD }));
+			toast.success(t("notification.deleting", { entity: ENTITY.BOARD }));
 		isCardRemoved &&
-			toast.success(t("notfication.deleting", { entity: ENTITY.CARD }));
+			toast.success(t("notification.deleting", { entity: ENTITY.CARD }));
 	}, [isBoardRemoved, isCardRemoved, t]);
 
 	useLoader(isBoardRemoving || isCardRemoving);

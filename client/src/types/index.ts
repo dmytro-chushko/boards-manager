@@ -5,3 +5,4 @@ export type { SetState } from "./SetState";
 export type { IUpdateBoardForm } from "./IUpdateBoardForm";
 export type { ICard } from "./ICard";
 export type { IUpdateCard } from "./IUpdateCard";
+export type { IUpdateCardForm } from "./IUpdateCardForm";

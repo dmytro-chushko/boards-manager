@@ -1,6 +1,8 @@
 import { FC } from "react";
+import { useParams } from "react-router-dom";
 
 import { useCreateBoardMutation } from "redux-dir/api/board-api";
+import { useCreateCardMutation } from "redux-dir/api/card-api";
 import { ENTITY } from "utils/consts";
 import { ReactComponent as AddIcon } from "assets/plus.svg";
 
@@ -13,10 +15,11 @@ interface ICreationButtonProps {
 }
 
 export const CreationButton: FC<ICreationButtonProps> = ({ entity }) => {
+	const { id } = useParams();
 	const [createBoard, { isLoading: isLoadingBoardCreation }] =
 		useCreateBoardMutation();
 	const [createCard, { isLoading: isLoadingCardCreation }] =
-		useCreateBoardMutation();
+		useCreateCardMutation();
 
 	const entities = {
 		[ENTITY.BOARD]: {
@@ -24,7 +27,7 @@ export const CreationButton: FC<ICreationButtonProps> = ({ entity }) => {
 			isLoading: isLoadingBoardCreation,
 		},
 		[ENTITY.CARD]: {
-			handler: async () => await createCard(),
+			handler: async () => await createCard(id || ""),
 			isLoading: isLoadingCardCreation,
 		},
 	};

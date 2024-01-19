@@ -13,7 +13,7 @@ export const StyledItem = styled.li<I$Entity>`
 			},
 			[ENTITY.CARD]: {
 				padding: SIZE.GENERAL.XS,
-				width: SIZE.ITEM_WIDTH.BOARD,
+				width: SIZE.ITEM_WIDTH.CARD,
 				bgc: COLOR.BGC.PRIMARY,
 			},
 		};

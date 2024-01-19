@@ -12,6 +12,10 @@ export const ColumnContainer = styled.li`
 
 export const StyledColumn = styled.ul`
 	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: ${SIZE.GENERAL.XS};
 	width: 100%;
 	padding: ${SIZE.GENERAL.XS};
 

@@ -13,9 +13,9 @@ export const cardApi = createApi({
 			query: id => ({ url: id }),
 			providesTags: ["Card"],
 		}),
-		createCard: builder.mutation<ICard, void>({
-			query: () => ({
-				url: "",
+		createCard: builder.mutation<ICard, string>({
+			query: id => ({
+				url: id,
 				method: "POST",
 			}),
 			invalidatesTags: ["Card"],

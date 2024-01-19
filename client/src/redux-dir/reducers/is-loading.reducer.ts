@@ -8,7 +8,7 @@ const initialState: { isLoading: boolean } = {
 };
 
 export const loaderStatus = createSlice({
-	name: REDUCER_PATH.IS_EDIT,
+	name: REDUCER_PATH.IS_LOADING,
 	initialState,
 	reducers: {
 		setIsLoading(state, action: PayloadAction<boolean>) {
