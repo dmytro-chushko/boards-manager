@@ -6,7 +6,7 @@ export const Container = styled.main`
 	padding-right: ${SIZE.GENERAL.M};
 `;
 
-interface I$FHContainer {
+export interface I$FHContainer {
 	$decreaseIn?: string;
 }
 

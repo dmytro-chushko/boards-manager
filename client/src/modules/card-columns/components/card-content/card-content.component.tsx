@@ -67,7 +67,7 @@ export const CardContent: FC<ICardContent> = ({ card, isEdit, setIsEdit }) => {
 				<StyledInput
 					type="text"
 					$isError={!!errors.title}
-					defaultValue={modifiedTitle}
+					defaultValue={title}
 					{...register("title")}
 				/>
 				{errors.title && (
@@ -77,7 +77,7 @@ export const CardContent: FC<ICardContent> = ({ card, isEdit, setIsEdit }) => {
 					rows={3}
 					maxLength={500}
 					$isError={!!errors.description}
-					defaultValue={modifiedDescr}
+					defaultValue={description}
 					{...register("description")}
 				/>
 				{errors.description && (

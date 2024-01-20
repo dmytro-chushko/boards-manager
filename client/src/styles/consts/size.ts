@@ -14,3 +14,13 @@ export const enum ITEM_WIDTH {
 	BOARD = "20rem",
 	CARD = "100%",
 }
+
+export const enum SCROLL {
+	TRACK = "0.5rem",
+	THUMB = "0.21875rem",
+}
+
+export const enum COLUMN_SCROLL {
+	TRACK = "0.5rem",
+	THUMB = "0.21875rem",
+}
