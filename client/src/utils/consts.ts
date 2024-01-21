@@ -6,7 +6,7 @@ export const enum ROUTE {
 export const enum REDUCER_PATH {
 	BOARD_API = "board-api",
 	CARD_API = "card-api",
-	IS_LOADING = "is-loading",
+	IS_LOADING = "loader-status",
 }
 
 export const enum QUERY_URL {

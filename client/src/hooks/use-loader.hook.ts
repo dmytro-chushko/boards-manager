@@ -7,5 +7,5 @@ export const useLoader = (isLoading: boolean): void => {
 
 	useEffect(() => {
 		dispatch(setIsLoading(isLoading));
-	}, [isLoading, dispatch]);
+	}, [dispatch, isLoading]);
 };

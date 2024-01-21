@@ -1,29 +1,31 @@
 import {
 	Children,
+	DragEventHandler,
 	FC,
 	ReactElement,
 	cloneElement,
-	useEffect,
 	useState,
 } from "react";
-import { useTranslation } from "react-i18next";
-import { toast } from "react-toastify";
 
 import { ReactComponent as Edit } from "assets/edit.svg";
 import { ReactComponent as Trash } from "assets/trash.svg";
 import { BUTTON_LABEL, ENTITY } from "utils/consts";
-import { SetState } from "types";
-import { useRemoveBoardMutation } from "redux-dir/api/board-api";
-import { useRemoveCardMutation } from "redux-dir/api/card-api";
-import { useLoader } from "hooks";
+import { ItemProps, SetState } from "types";
 
 import { Button, ButtonCover } from "styles/ui/button.styled";
 import { ButtonsWrapper } from "styles/ui/container.styled";
-import { StyledItem } from "./list-item.styled";
+import { ItemCover, StyledItem } from "./list-item.styled";
 
 interface IListItemProps {
 	id: string;
 	entity: ENTITY;
+	draggable?: boolean;
+	onDragStart?: DragEventHandler<HTMLLIElement>;
+	onDragLeave?: DragEventHandler<HTMLLIElement>;
+	onDragEnd?: DragEventHandler<HTMLLIElement>;
+	onDragOver?: DragEventHandler<HTMLLIElement>;
+	onDrop?: DragEventHandler<HTMLLIElement>;
+	handleDelete?: (id: string) => void;
 	children: ReactElement[] | ReactElement;
 }
 
@@ -32,34 +34,32 @@ export interface IListItemChildrenProps {
 	setIsEdit?: SetState<boolean>;
 }
 
-export const ListItem: FC<IListItemProps> = ({ id, entity, children }) => {
-	const { t } = useTranslation();
+export const ListItem: FC<IListItemProps> = ({
+	id,
+	entity,
+	draggable,
+	onDragStart,
+	onDragLeave,
+	onDragEnd,
+	onDragOver,
+	onDrop,
+	handleDelete,
+	children,
+}) => {
 	const [isEdit, setIsEdit] = useState<boolean>(false);
-	const [
-		removeBoard,
-		{ isLoading: isBoardRemoving, isSuccess: isBoardRemoved },
-	] = useRemoveBoardMutation();
-	const [removeCard, { isLoading: isCardRemoving, isSuccess: isCardRemoved }] =
-		useRemoveCardMutation();
-	const buttons = [
-		{
-			icon: <Edit />,
-			label: BUTTON_LABEL.EDIT,
-			handleClick: () => setIsEdit(!isEdit),
-		},
-		{
-			icon: <Trash />,
-			label: BUTTON_LABEL.DELETE,
-			handleClick: {
-				[ENTITY.BOARD]: async () => {
-					await removeBoard(id);
-				},
-				[ENTITY.CARD]: async () => {
-					await removeCard(id);
-				},
-			},
-		},
-	];
+
+	const itemProps: ItemProps = {
+		$entity: entity,
+		draggable,
+	};
+
+	if (draggable) {
+		itemProps.onDragStart = onDragStart;
+		itemProps.onDragLeave = onDragLeave;
+		itemProps.onDragEnd = onDragEnd;
+		itemProps.onDragOver = onDragOver;
+		itemProps.onDrop = onDrop;
+	}
 
 	const renderChildren = () => {
 		return Children.map(children, child => {
@@ -70,35 +70,29 @@ export const ListItem: FC<IListItemProps> = ({ id, entity, children }) => {
 		});
 	};
 
-	useEffect(() => {
-		isBoardRemoved &&
-			toast.success(t("notification.deleting", { entity: ENTITY.BOARD }));
-		isCardRemoved &&
-			toast.success(t("notification.deleting", { entity: ENTITY.CARD }));
-	}, [isBoardRemoved, isCardRemoved, t]);
-
-	useLoader(isBoardRemoving || isCardRemoving);
-
 	return (
-		<StyledItem $entity={entity}>
+		<StyledItem {...itemProps}>
+			{draggable && <ItemCover data-draggable />}
 			{renderChildren()}
 			<ButtonsWrapper>
-				{buttons.map(({ icon, label, handleClick }, i) => (
-					<Button
-						key={i}
-						$width="2rem"
-						$height="2rem"
-						type="button"
-						onClick={
-							typeof handleClick === "object"
-								? handleClick[entity]
-								: handleClick
-						}
-					>
-						{icon}
-						<ButtonCover data-label={label + id} />
-					</Button>
-				))}
+				<Button
+					$width="2rem"
+					$height="2rem"
+					type="button"
+					onClick={() => setIsEdit(!isEdit)}
+				>
+					<Edit />
+					<ButtonCover data-label={BUTTON_LABEL.EDIT + id} />
+				</Button>
+				<Button
+					$width="2rem"
+					$height="2rem"
+					type="button"
+					onClick={() => handleDelete && handleDelete(id)}
+				>
+					<Trash />
+					<ButtonCover data-label={BUTTON_LABEL.DELETE + id} />
+				</Button>
 			</ButtonsWrapper>
 		</StyledItem>
 	);

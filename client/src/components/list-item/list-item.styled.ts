@@ -4,6 +4,7 @@ import { I$Entity } from "types";
 import { ENTITY } from "utils/consts";
 
 export const StyledItem = styled.li<I$Entity>`
+	position: relative;
 	${({ $entity }) => {
 		const items = {
 			[ENTITY.BOARD]: {
@@ -26,4 +27,19 @@ export const StyledItem = styled.li<I$Entity>`
 	}}
 
 	border-radius:${COMMON.BORDER_RADIUS};
+`;
+
+export const ItemCover = styled.div`
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+
+	border-radius: ${COMMON.BORDER_RADIUS};
+	opacity: 0.5;
+	/* pointer-events: none; */
+	background-color: transparent;
+
+	transition: ${COMMON.TRANSITION};
 `;

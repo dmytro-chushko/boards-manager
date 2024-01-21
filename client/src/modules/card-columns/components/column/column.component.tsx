@@ -1,23 +1,124 @@
-import { FC, useRef } from "react";
+import { FC, useRef, DragEvent, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 
-import { ENTITY } from "utils/consts";
-import { ICard } from "types";
+import { ENTITY, STATUS_VALUE } from "utils/consts";
+import { ICard, IDraggedCard, SetState } from "types";
 
 import { ColumnContainer, StyledColumn } from "./column.styled";
 import { StyledTitle } from "styles/ui/typography.styled";
 import { ListItem } from "components";
 import { CardContent } from "../card-content";
-import { useChekScroll, useElementHeight } from "hooks";
+import { useChekScroll, useElementHeight, useLoader } from "hooks";
+import { COLOR } from "styles";
+import {
+	useRemoveCardMutation,
+	useUpdateCardOrderMutation,
+} from "redux-dir/api/card-api";
+import { useParams } from "react-router-dom";
 
-interface IColumn {
+interface IColumnProps {
 	title: string;
+	statusValue: STATUS_VALUE;
 	cards: ICard[];
+	draggedCard?: IDraggedCard;
+	setDraggedCard?: SetState<IDraggedCard | undefined>;
 }
 
-export const Column: FC<IColumn> = ({ title, cards }) => {
+export const Column: FC<IColumnProps> = ({
+	title,
+	statusValue,
+	cards,
+	draggedCard,
+	setDraggedCard,
+}) => {
+	const { t } = useTranslation();
+	const { id } = useParams();
 	const columnRef = useRef<HTMLUListElement>(null);
 	const columnHeight = useElementHeight(columnRef);
 	const isScroll = useChekScroll(columnRef);
+	const [removeCard, { isLoading: isCardRemoving, isSuccess: isCardRemoved }] =
+		useRemoveCardMutation();
+	const [updateCardOrder, { isLoading: isOrderUpdating }] =
+		useUpdateCardOrderMutation();
+
+	const handleDelete = async (id: string) => await removeCard(id);
+
+	const handleDragStart = (e: DragEvent<HTMLLIElement>, card: ICard) => {
+		setDraggedCard &&
+			setDraggedCard({ draggedId: card.id, draggedStatus: card.status });
+	};
+
+	const handleDragLeave = (e: DragEvent<HTMLLIElement>) => {
+		console.log("leave");
+		if ((e.target as HTMLLIElement).dataset.draggable) {
+			(e.target as HTMLLIElement).style.background = "transparent";
+		}
+	};
+
+	const handleDragEnd = (e: DragEvent<HTMLLIElement>) => {
+		console.log("end");
+	};
+
+	const handleDragOver = (e: DragEvent<HTMLLIElement>) => {
+		e.preventDefault();
+		if ((e.target as HTMLLIElement).dataset.draggable) {
+			(e.target as HTMLLIElement).style.background = COLOR.BGC.ACCENT;
+		}
+	};
+
+	const handleDrop = (e: DragEvent<HTMLLIElement>, card: ICard) => {
+		e.preventDefault();
+		console.log(card);
+		if ((e.target as HTMLLIElement).dataset.draggable) {
+			(e.target as HTMLLIElement).style.background = "transparent";
+		}
+
+		if (draggedCard?.draggedId !== card.id) {
+			updateCardOrder({
+				id: id || "",
+				...draggedCard,
+				swappedId: card.id,
+				swappedStatus: card.status,
+			});
+		}
+	};
+
+	const handleDragOverEmptyColumn = (e: DragEvent<HTMLUListElement>) => {
+		e.preventDefault();
+		if (!cards.length) {
+			(e.target as HTMLUListElement).style.background = COLOR.BGC.ACCENT;
+		}
+		console.log("over");
+	};
+
+	const handleDragLeaveEmptyColumn = (e: DragEvent<HTMLUListElement>) => {
+		console.log("leave");
+		if (!cards.length) {
+			(e.target as HTMLUListElement).style.background = COLOR.BGC.SECONDARY;
+		}
+	};
+
+	const handleDropToEmptyColumn = (e: DragEvent<HTMLUListElement>) => {
+		e.preventDefault();
+		if (!cards.length) {
+			(e.target as HTMLUListElement).style.background = COLOR.BGC.SECONDARY;
+
+			updateCardOrder({
+				id: id || "",
+				...draggedCard,
+				swappedId: "",
+				swappedStatus: statusValue,
+			});
+		}
+	};
+
+	useLoader(isCardRemoving || isOrderUpdating);
+
+	useEffect(() => {
+		isCardRemoved &&
+			toast.success(t("notification.deleting", { entity: ENTITY.CARD }));
+	}, [isCardRemoved, t]);
 
 	return (
 		<ColumnContainer>
@@ -27,10 +128,24 @@ export const Column: FC<IColumn> = ({ title, cards }) => {
 				ref={columnRef}
 				$decreaseIn={`${columnHeight}rem`}
 				$isScroll={isScroll}
+				onDragOver={e => handleDragOverEmptyColumn(e)}
+				onDragLeave={e => handleDragLeaveEmptyColumn(e)}
+				onDrop={e => handleDropToEmptyColumn(e)}
 			>
 				{cards &&
 					cards.map(card => (
-						<ListItem key={card.id} id={card.id} entity={ENTITY.CARD}>
+						<ListItem
+							key={card.id}
+							id={card.id}
+							entity={ENTITY.CARD}
+							draggable
+							onDragStart={e => handleDragStart(e, card)}
+							onDragLeave={e => handleDragLeave(e)}
+							onDragEnd={e => handleDragEnd(e)}
+							onDragOver={e => handleDragOver(e)}
+							onDrop={e => handleDrop(e, card)}
+							handleDelete={handleDelete}
+						>
 							<CardContent card={card} />
 						</ListItem>
 					))}

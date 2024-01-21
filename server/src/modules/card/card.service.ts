@@ -162,11 +162,6 @@ export class CardService {
       });
     }
 
-    console.log(
-      orders,
-      `draggedOrder - ${draggedOrder}, swappedOrder - ${swappedOrder}`,
-    );
-
     return { message: SUCCESSFUL_RESPONSE.UPDATED };
   }
 

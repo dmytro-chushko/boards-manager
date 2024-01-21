@@ -1,7 +1,7 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 
 import { baseQuery } from "redux-dir/base-query";
-import { ICard, IUpdateCard } from "types";
+import { ICard, IUpdateCard, IUpdateCardOrder } from "types";
 import { QUERY_URL, REDUCER_PATH } from "utils/consts";
 
 export const cardApi = createApi({
@@ -28,6 +28,14 @@ export const cardApi = createApi({
 			}),
 			invalidatesTags: ["Card"],
 		}),
+		updateCardOrder: builder.mutation<{ message: string }, IUpdateCardOrder>({
+			query: ({ id, ...body }) => ({
+				url: id,
+				method: "PATCH",
+				body,
+			}),
+			invalidatesTags: ["Card"],
+		}),
 		removeCard: builder.mutation<{ message: string }, string>({
 			query: id => ({
 				url: id,
@@ -42,5 +50,6 @@ export const {
 	useGetAllCardsByBoardQuery,
 	useCreateCardMutation,
 	useUpdateCardMutation,
+	useUpdateCardOrderMutation,
 	useRemoveCardMutation,
 } = cardApi;

@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 
 import { useStatusExamples } from "hooks";
 
@@ -9,8 +9,10 @@ import { Column } from "./components/column";
 import { STATUS_VALUE } from "utils/consts";
 import { useAppDispatch } from "redux-dir/hooks";
 import { setIsLoading } from "redux-dir/reducers/is-loading.reducer";
+import { IDraggedCard } from "types";
 
 export const CardColumns: FC = () => {
+	const [draggedCard, setDraggedCard] = useState<IDraggedCard>();
 	const { id } = useParams();
 	const dispatch = useAppDispatch();
 	const { data, isLoading } = useGetAllCardsByBoardQuery(id || "");
@@ -33,7 +35,10 @@ export const CardColumns: FC = () => {
 							<Column
 								key={cardStatus}
 								title={statusEx[cardStatus as STATUS_VALUE]}
+								statusValue={cardStatus as STATUS_VALUE}
 								cards={currentCards}
+								draggedCard={draggedCard}
+								setDraggedCard={setDraggedCard}
 							/>
 						);
 					})}

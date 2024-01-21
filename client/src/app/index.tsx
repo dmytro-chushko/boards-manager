@@ -9,11 +9,11 @@ import { useAppSelector } from "redux-dir/hooks";
 import { getIsLoading } from "redux-dir/reducers/is-loading.reducer";
 
 export const App: FC = () => {
-	const isLoading = useAppSelector(getIsLoading);
+	const isShown = useAppSelector(getIsLoading);
 
 	return (
 		<>
-			<Loader isShown={isLoading} />
+			<Loader isShown={isShown} />
 			<MainRouter />
 			<ToastContainer />
 		</>
