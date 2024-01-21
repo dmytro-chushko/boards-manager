@@ -9,3 +9,4 @@ export type { IUpdateCardForm } from "./IUpdateCardForm";
 export type { ItemProps } from "./ItemProps";
 export type { IDraggedCard } from "./IDraggedCard";
 export type { IUpdateCardOrder } from "./IUdateCardOrder";
+export type { ISearchForm } from "./ISearchForm";

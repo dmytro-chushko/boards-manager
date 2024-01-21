@@ -1,7 +1,9 @@
 {
 	"validation": {
 		"maxChar": "not more then {{num}} characters",
-		"required": "it should be filled"
+		"required": "it should be filled",
+		"requiredLength": "it must contains {{num}} characters",
+		"boardNotExist": "board not found"
 	},
 	"notification": {
 		"rejected": "Something went wrong",
@@ -11,5 +13,7 @@
 		"todo": "To Do",
 		"inProgress": "In Progress",
 		"done": "Done"
-	}
+	},
+	"searchButton": "Load",
+	"searchPlaceholder": "Enter a board ID here"
 }

@@ -17,6 +17,7 @@ export const FullHeightContainer = styled(Container)<I$FHContainer>`
 
 export const Header = styled.header`
 	margin-bottom: ${SIZE.GENERAL.XS};
+	padding-top: ${SIZE.GENERAL.XS};
 	padding-left: ${SIZE.GENERAL.M};
 	padding-right: ${SIZE.GENERAL.M};
 `;

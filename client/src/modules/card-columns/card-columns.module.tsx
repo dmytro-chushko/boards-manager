@@ -35,7 +35,7 @@ export const CardColumns: FC = () => {
 							<Column
 								key={cardStatus}
 								title={statusEx[cardStatus as STATUS_VALUE]}
-								statusValue={cardStatus as STATUS_VALUE}
+								currentStatus={cardStatus as STATUS_VALUE}
 								cards={currentCards}
 								draggedCard={draggedCard}
 								setDraggedCard={setDraggedCard}

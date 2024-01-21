@@ -19,7 +19,7 @@ import { useParams } from "react-router-dom";
 
 interface IColumnProps {
 	title: string;
-	statusValue: STATUS_VALUE;
+	currentStatus: STATUS_VALUE;
 	cards: ICard[];
 	draggedCard?: IDraggedCard;
 	setDraggedCard?: SetState<IDraggedCard | undefined>;
@@ -27,7 +27,7 @@ interface IColumnProps {
 
 export const Column: FC<IColumnProps> = ({
 	title,
-	statusValue,
+	currentStatus,
 	cards,
 	draggedCard,
 	setDraggedCard,
@@ -89,28 +89,39 @@ export const Column: FC<IColumnProps> = ({
 		if (!cards.length) {
 			(e.target as HTMLUListElement).style.background = COLOR.BGC.ACCENT;
 		}
+		if ((e.target as HTMLUListElement).dataset.column) {
+			(e.target as HTMLUListElement).style.background = COLOR.BGC.ACCENT;
+		}
 		console.log("over");
 	};
 
 	const handleDragLeaveEmptyColumn = (e: DragEvent<HTMLUListElement>) => {
 		console.log("leave");
-		if (!cards.length) {
+		if (!cards.length || (e.target as HTMLUListElement).dataset.column) {
 			(e.target as HTMLUListElement).style.background = COLOR.BGC.SECONDARY;
 		}
+		// if ((e.target as HTMLUListElement).dataset.column) {
+		// 	(e.target as HTMLUListElement).style.background = COLOR.BGC.SECONDARY;
+		// }
 	};
 
 	const handleDropToEmptyColumn = (e: DragEvent<HTMLUListElement>) => {
 		e.preventDefault();
-		if (!cards.length) {
+		if (!cards.length || (e.target as HTMLUListElement).dataset.column) {
 			(e.target as HTMLUListElement).style.background = COLOR.BGC.SECONDARY;
 
-			updateCardOrder({
-				id: id || "",
-				...draggedCard,
-				swappedId: "",
-				swappedStatus: statusValue,
-			});
+			if (draggedCard?.draggedStatus !== currentStatus) {
+				updateCardOrder({
+					id: id || "",
+					...draggedCard,
+					swappedId: "",
+					swappedStatus: currentStatus,
+				});
+			}
 		}
+		// if ((e.target as HTMLUListElement).dataset.column) {
+		// 	(e.target as HTMLUListElement).style.background = COLOR.BGC.SECONDARY;
+		// }
 	};
 
 	useLoader(isCardRemoving || isOrderUpdating);
@@ -131,24 +142,27 @@ export const Column: FC<IColumnProps> = ({
 				onDragOver={e => handleDragOverEmptyColumn(e)}
 				onDragLeave={e => handleDragLeaveEmptyColumn(e)}
 				onDrop={e => handleDropToEmptyColumn(e)}
+				data-column
 			>
 				{cards &&
-					cards.map(card => (
-						<ListItem
-							key={card.id}
-							id={card.id}
-							entity={ENTITY.CARD}
-							draggable
-							onDragStart={e => handleDragStart(e, card)}
-							onDragLeave={e => handleDragLeave(e)}
-							onDragEnd={e => handleDragEnd(e)}
-							onDragOver={e => handleDragOver(e)}
-							onDrop={e => handleDrop(e, card)}
-							handleDelete={handleDelete}
-						>
-							<CardContent card={card} />
-						</ListItem>
-					))}
+					cards
+						.sort((a, b) => b.order - a.order)
+						.map(card => (
+							<ListItem
+								key={card.id}
+								id={card.id}
+								entity={ENTITY.CARD}
+								draggable
+								onDragStart={e => handleDragStart(e, card)}
+								onDragLeave={e => handleDragLeave(e)}
+								onDragEnd={e => handleDragEnd(e)}
+								onDragOver={e => handleDragOver(e)}
+								onDrop={e => handleDrop(e, card)}
+								handleDelete={handleDelete}
+							>
+								<CardContent card={card} />
+							</ListItem>
+						))}
 			</StyledColumn>
 		</ColumnContainer>
 	);

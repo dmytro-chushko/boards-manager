@@ -1,1 +1,1 @@
-export { BoardSearch } from "./board-search.component";
+export { BoardSearch } from "./board-search.module";
