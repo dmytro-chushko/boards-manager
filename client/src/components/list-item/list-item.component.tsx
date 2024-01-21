@@ -72,7 +72,7 @@ export const ListItem: FC<IListItemProps> = ({
 
 	return (
 		<StyledItem {...itemProps}>
-			{draggable && <ItemCover data-draggable />}
+			{draggable && !isEdit && <ItemCover data-draggable />}
 			{renderChildren()}
 			<ButtonsWrapper>
 				<Button

@@ -50,15 +50,14 @@ export const Column: FC<IColumnProps> = ({
 	};
 
 	const handleDragLeave = (e: DragEvent<HTMLLIElement>) => {
-		console.log("leave");
 		if ((e.target as HTMLLIElement).dataset.draggable) {
 			(e.target as HTMLLIElement).style.background = "transparent";
 		}
 	};
 
-	const handleDragEnd = (e: DragEvent<HTMLLIElement>) => {
-		console.log("end");
-	};
+	// const handleDragEnd = (e: DragEvent<HTMLLIElement>) => {
+	// 	console.log("end");
+	// };
 
 	const handleDragOver = (e: DragEvent<HTMLLIElement>) => {
 		e.preventDefault();
@@ -69,7 +68,6 @@ export const Column: FC<IColumnProps> = ({
 
 	const handleDrop = (e: DragEvent<HTMLLIElement>, card: ICard) => {
 		e.preventDefault();
-		console.log(card);
 		if ((e.target as HTMLLIElement).dataset.draggable) {
 			(e.target as HTMLLIElement).style.background = "transparent";
 		}
@@ -92,17 +90,12 @@ export const Column: FC<IColumnProps> = ({
 		if ((e.target as HTMLUListElement).dataset.column) {
 			(e.target as HTMLUListElement).style.background = COLOR.BGC.ACCENT;
 		}
-		console.log("over");
 	};
 
 	const handleDragLeaveEmptyColumn = (e: DragEvent<HTMLUListElement>) => {
-		console.log("leave");
 		if (!cards.length || (e.target as HTMLUListElement).dataset.column) {
 			(e.target as HTMLUListElement).style.background = COLOR.BGC.SECONDARY;
 		}
-		// if ((e.target as HTMLUListElement).dataset.column) {
-		// 	(e.target as HTMLUListElement).style.background = COLOR.BGC.SECONDARY;
-		// }
 	};
 
 	const handleDropToEmptyColumn = (e: DragEvent<HTMLUListElement>) => {
@@ -119,9 +112,6 @@ export const Column: FC<IColumnProps> = ({
 				});
 			}
 		}
-		// if ((e.target as HTMLUListElement).dataset.column) {
-		// 	(e.target as HTMLUListElement).style.background = COLOR.BGC.SECONDARY;
-		// }
 	};
 
 	useLoader(isCardRemoving || isOrderUpdating);
@@ -155,7 +145,7 @@ export const Column: FC<IColumnProps> = ({
 								draggable
 								onDragStart={e => handleDragStart(e, card)}
 								onDragLeave={e => handleDragLeave(e)}
-								onDragEnd={e => handleDragEnd(e)}
+								// onDragEnd={e => handleDragEnd(e)}
 								onDragOver={e => handleDragOver(e)}
 								onDrop={e => handleDrop(e, card)}
 								handleDelete={handleDelete}
