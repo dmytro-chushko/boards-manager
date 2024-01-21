@@ -90,7 +90,15 @@ export class CardService {
         1,
       );
 
-      await this.updateCardById(draggedId, { order: 1, status: swappedStatus });
+      const order = await this.cardRepository.countBy({
+        status: swappedStatus,
+        board: { id: boardId },
+      });
+
+      await this.updateCardById(draggedId, {
+        order: order ? order + 1 : 1,
+        status: swappedStatus,
+      });
 
       return { message: SUCCESSFUL_RESPONSE.UPDATED };
     }
