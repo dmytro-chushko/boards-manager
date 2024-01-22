@@ -1,7 +1,8 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Card } from "src/database/entities";
 import { Between, MoreThan, MoreThanOrEqual, Repository } from "typeorm";
+
+import { Card } from "src/database/entities";
 import { BoardService } from "../board/board.service";
 import { STATUS } from "src/utils/enums/Status";
 import { UpdateCardDto } from "./dto/update-card.dto";

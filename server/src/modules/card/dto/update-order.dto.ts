@@ -1,8 +1,9 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsDefined, IsEnum, IsString } from "class-validator";
+
 import { STATUS } from "src/utils/enums/Status";
 import { VALIDATION_ERROR } from "src/utils/error-messages";
-import { representEnum } from "src/utils/helpers/represet-enum";
+import { representEnum } from "src/utils/helpers/represent-enum";
 
 export class UpdateOrederDto {
   @ApiProperty({

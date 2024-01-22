@@ -8,6 +8,7 @@ import {
   Put,
 } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+
 import { BoardService } from "./board.service";
 import { UpdateBoardDto } from "./dto/update-board.dto";
 import { Board } from "src/database/entities";

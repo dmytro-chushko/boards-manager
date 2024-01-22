@@ -1,6 +1,7 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
+
 import { Board, Card } from "./database/entities";
 import { BoardModule } from "./modules/board/board.module";
 import { CardModule } from "./modules/card/card.module";
