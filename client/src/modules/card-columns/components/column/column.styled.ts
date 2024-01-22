@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+
 import { COLOR, COMMON, SIZE } from "styles";
 import { customScroll } from "styles/global.styled";
 import { FullHeightContainer } from "styles/ui/container.styled";

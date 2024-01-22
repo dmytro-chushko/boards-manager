@@ -1,7 +1,8 @@
-import { ModalWindow } from "components/modal-window";
 import { FC } from "react";
-
 import { RotatingLines } from "react-loader-spinner";
+
+import { ModalWindow } from "components/modal-window";
+
 import { COMMON } from "styles";
 
 interface ILoader {

@@ -1,21 +1,21 @@
 import { FC, useRef, DragEvent, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
+import { useParams } from "react-router-dom";
 
 import { ENTITY, STATUS_VALUE } from "utils/consts";
 import { ICard, IDraggedCard, SetState } from "types";
-
-import { ColumnContainer, StyledColumn } from "./column.styled";
-import { StyledTitle } from "styles/ui/typography.styled";
 import { ListItem } from "components";
 import { CardContent } from "../card-content";
 import { useChekScroll, useElementHeight, useLoader } from "hooks";
-import { COLOR } from "styles";
 import {
 	useRemoveCardMutation,
 	useUpdateCardOrderMutation,
 } from "redux-dir/api/card-api";
-import { useParams } from "react-router-dom";
+
+import { ColumnContainer, StyledColumn } from "./column.styled";
+import { StyledTitle } from "styles/ui/typography.styled";
+import { COLOR } from "styles";
 
 interface IColumnProps {
 	title: string;
@@ -54,10 +54,6 @@ export const Column: FC<IColumnProps> = ({
 			(e.target as HTMLLIElement).style.background = "transparent";
 		}
 	};
-
-	// const handleDragEnd = (e: DragEvent<HTMLLIElement>) => {
-	// 	console.log("end");
-	// };
 
 	const handleDragOver = (e: DragEvent<HTMLLIElement>) => {
 		e.preventDefault();
@@ -145,7 +141,6 @@ export const Column: FC<IColumnProps> = ({
 								draggable
 								onDragStart={e => handleDragStart(e, card)}
 								onDragLeave={e => handleDragLeave(e)}
-								// onDragEnd={e => handleDragEnd(e)}
 								onDragOver={e => handleDragOver(e)}
 								onDrop={e => handleDrop(e, card)}
 								handleDelete={handleDelete}

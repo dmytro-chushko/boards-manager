@@ -1,15 +1,16 @@
-import { Loader } from "components";
 import { FC, Suspense, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Outlet, useNavigate } from "react-router-dom";
-
-import { ErrorContainer, Header } from "styles/ui/container.styled";
-import { SearchButton, SearchInput, StyledForm } from "./board-search.styled";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+
 import { ISearchForm } from "types";
 import { useSearchFormSchema } from "utils/validation/search-form.schema";
 import { useGetAllBoardsQuery } from "redux-dir/api/board-api";
+import { Loader } from "components";
+
+import { ErrorContainer, Header } from "styles/ui/container.styled";
+import { SearchButton, SearchInput, StyledForm } from "./board-search.styled";
 
 export const BoardSearch: FC = () => {
 	const { t } = useTranslation();

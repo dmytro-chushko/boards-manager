@@ -6,13 +6,13 @@ import { ICard, IUpdateCardForm } from "types";
 import { BUTTON_LABEL, ENTITY, MAX_CHAR } from "utils/consts";
 import { modifyString } from "utils/helpers";
 import { IListItemChildrenProps } from "components/list-item/list-item.component";
+import { useUpdateCardSchema } from "utils/validation";
+import { useUpdateCardMutation } from "redux-dir/api/card-api";
+import { useDebounce, useOuterClick } from "hooks";
 
 import { StyledParagaph, StyledTitle } from "styles/ui/typography.styled";
-import { useUpdateCardSchema } from "utils/validation";
-import { useDebounce, useOuterClick } from "hooks";
 import { StyledInput, StyledTextArea } from "styles/ui/input.styled";
 import { ErrorContainer } from "styles/ui/container.styled";
-import { useUpdateCardMutation } from "redux-dir/api/card-api";
 import { FormWrapper, StyledForm } from "./card-content.styled";
 
 interface ICardContent extends IListItemChildrenProps {

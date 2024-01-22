@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import { CreationButton } from "components/creation-button/creation-button.component";
+import { CreationButton } from "components";
 import { BoardList } from "modules";
 import { ENTITY } from "utils/consts";
 

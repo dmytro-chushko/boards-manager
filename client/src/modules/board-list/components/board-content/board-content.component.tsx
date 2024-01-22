@@ -1,6 +1,7 @@
 import { FC, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useNavigate } from "react-router-dom";
 
 import { IListItemChildrenProps } from "components/list-item/list-item.component";
 import { useDebounce, useOuterClick } from "hooks";
@@ -9,13 +10,12 @@ import { BUTTON_LABEL, ENTITY, MAX_CHAR } from "utils/consts";
 import { modifyString } from "utils/helpers";
 import { useUpdateBoardSchema } from "utils/validation";
 import { ReactComponent as Enter } from "assets/enter.svg";
+import { useUpdateBoardMutation } from "redux-dir/api/board-api";
 
 import { StyledInput } from "styles/ui/input.styled";
 import { StyledTitle } from "styles/ui/typography.styled";
 import { ErrorContainer, FlexWrapper } from "styles/ui/container.styled";
-import { useUpdateBoardMutation } from "redux-dir/api/board-api";
 import { Button } from "styles/ui/button.styled";
-import { useNavigate } from "react-router-dom";
 import { SIZE } from "styles";
 
 interface IBoardContent extends IListItemChildrenProps {

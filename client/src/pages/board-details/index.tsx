@@ -2,15 +2,15 @@ import { FC } from "react";
 
 import { CreationButton } from "components";
 import { ENTITY, ROUTE } from "utils/consts";
+import { CardColumns } from "modules/card-columns";
+import { BackButton } from "components/back-button";
+import { useElementHeight } from "hooks";
 
 import {
 	FullHeightContainer,
 	RightFlexWrapper,
 	Section,
 } from "styles/ui/container.styled";
-import { CardColumns } from "modules/card-columns";
-import { BackButton } from "components/back-button";
-import { useElementHeight } from "hooks";
 
 import { SIZE } from "styles";
 

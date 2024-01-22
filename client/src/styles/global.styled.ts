@@ -1,6 +1,6 @@
 import { createGlobalStyle, css } from "styled-components";
 
-import { COLOR, COMMON, FONT, SIZE } from "styles";
+import { COLOR, COMMON, FONT } from "styles";
 
 export const customScroll = (track: string, thumb: string) => css`
 	&::-webkit-scrollbar {
@@ -73,25 +73,5 @@ export const GlobalStyle = createGlobalStyle`
 			height: auto;
 			max-width: 100%;
 		}
-
-		/* * {
-			scrollbar-width: ${SIZE.GENERAL.XS};
-			scrollbar-color: ${COLOR.BGC.SECONDARY} ${COLOR.BGC.PRIMARY};
-		}
-
-		*::-webkit-scrollbar {
-			width: ${SIZE.SCROLL.TRACK};
-		}
-
-		*::-webkit-scrollbar-track {
-			background: ${COLOR.BGC.SECONDARY};
-			border-radius: 0 10px 10px 0;
-		}
-
-		*::-webkit-scrollbar-thumb {
-			background-color: ${COLOR.BGC.PRIMARY};
-			border-radius: 10px;
-			border: ${SIZE.SCROLL.THUMB} solid ${COLOR.BGC.SECONDARY};
-		} */
 	`}
 `;

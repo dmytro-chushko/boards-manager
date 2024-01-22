@@ -7,12 +7,12 @@ import {
 	useGetAllBoardsQuery,
 	useRemoveBoardMutation,
 } from "redux-dir/api/board-api";
+import { BoardStatus } from "./components/board-status";
+import { BoardContent } from "./components/board-content";
+import { useLoader } from "hooks";
+import { ENTITY } from "utils/consts";
 
 import { StyledList } from "./board-list.styled";
-import { BoardContent } from "./components/board-content";
-import { ENTITY } from "utils/consts";
-import { BoardStatus } from "./components/board-status";
-import { useLoader } from "hooks";
 
 export const BoardList: FC = () => {
 	const { t } = useTranslation();

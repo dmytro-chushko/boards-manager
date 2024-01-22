@@ -1,8 +1,6 @@
 import { FC, useEffect, useState } from "react";
 
 import { useStatusExamples } from "hooks";
-
-import { ColumnList } from "./card-columns.styled";
 import { useGetAllCardsByBoardQuery } from "redux-dir/api/card-api";
 import { useParams } from "react-router-dom";
 import { Column } from "./components/column";
@@ -10,6 +8,8 @@ import { STATUS_VALUE } from "utils/consts";
 import { useAppDispatch } from "redux-dir/hooks";
 import { setIsLoading } from "redux-dir/reducers/is-loading.reducer";
 import { IDraggedCard } from "types";
+
+import { ColumnList } from "./card-columns.styled";
 
 export const CardColumns: FC = () => {
 	const [draggedCard, setDraggedCard] = useState<IDraggedCard>();

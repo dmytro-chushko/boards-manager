@@ -5,10 +5,10 @@ import { useCreateBoardMutation } from "redux-dir/api/board-api";
 import { useCreateCardMutation } from "redux-dir/api/card-api";
 import { ENTITY } from "utils/consts";
 import { ReactComponent as AddIcon } from "assets/plus.svg";
+import { useLoader } from "hooks";
 
 import { Button } from "styles/ui/button.styled";
 import { SIZE } from "styles";
-import { useLoader } from "hooks";
 
 interface ICreationButtonProps {
 	entity: ENTITY;

@@ -1,7 +1,9 @@
 import styled, { css } from "styled-components";
-import { COLOR, COMMON, SIZE } from "styles";
+
 import { I$Entity } from "types";
 import { ENTITY } from "utils/consts";
+
+import { COLOR, COMMON, SIZE } from "styles";
 
 export const StyledItem = styled.li<I$Entity>`
 	position: relative;
@@ -11,11 +13,13 @@ export const StyledItem = styled.li<I$Entity>`
 				padding: SIZE.GENERAL.XS,
 				width: SIZE.ITEM_WIDTH.BOARD,
 				bgc: COLOR.BGC.SECONDARY,
+				cursor: "auto",
 			},
 			[ENTITY.CARD]: {
 				padding: SIZE.GENERAL.XS,
 				width: SIZE.ITEM_WIDTH.CARD,
 				bgc: COLOR.BGC.PRIMARY,
+				cursor: "grab",
 			},
 		};
 
@@ -23,6 +27,7 @@ export const StyledItem = styled.li<I$Entity>`
 			padding: ${items[$entity].padding};
 			width: ${items[$entity].width};
 			background-color: ${items[$entity].bgc};
+			cursor: ${items[$entity].cursor};
 		`;
 	}}
 
@@ -38,7 +43,6 @@ export const ItemCover = styled.div`
 
 	border-radius: ${COMMON.BORDER_RADIUS};
 	opacity: 0.5;
-	/* pointer-events: none; */
 	background-color: transparent;
 
 	transition: ${COMMON.TRANSITION};
