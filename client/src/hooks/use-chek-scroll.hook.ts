@@ -1,6 +1,9 @@
 import { RefObject, useEffect, useState } from "react";
 
-export const useChekScroll = (element: RefObject<Element>): boolean => {
+export const useChekScroll = <T>(
+	element: RefObject<Element>,
+	influencingEntity?: T,
+): boolean => {
 	const [isScroll, setIsScroll] = useState<boolean>(false);
 
 	useEffect(() => {
@@ -10,7 +13,7 @@ export const useChekScroll = (element: RefObject<Element>): boolean => {
 
 			setIsScroll(isScrollExist);
 		}
-	}, [element]);
+	}, [element, influencingEntity]);
 
 	return isScroll;
 };

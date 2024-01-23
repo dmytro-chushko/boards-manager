@@ -36,7 +36,7 @@ export const Column: FC<IColumnProps> = ({
 	const { id } = useParams();
 	const columnRef = useRef<HTMLUListElement>(null);
 	const columnHeight = useElementHeight(columnRef);
-	const isScroll = useChekScroll(columnRef);
+	const isScroll = useChekScroll<ICard[]>(columnRef, cards);
 	const [removeCard, { isLoading: isCardRemoving, isSuccess: isCardRemoved }] =
 		useRemoveCardMutation();
 	const [updateCardOrder, { isLoading: isOrderUpdating }] =
