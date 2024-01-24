@@ -2,7 +2,7 @@ import { RefObject, useEffect, useState } from "react";
 
 export const useChekScroll = <T>(
 	element: RefObject<Element>,
-	influencingEntity?: T,
+	...influencingEntity: T[]
 ): boolean => {
 	const [isScroll, setIsScroll] = useState<boolean>(false);
 
@@ -13,7 +13,8 @@ export const useChekScroll = <T>(
 
 			setIsScroll(isScrollExist);
 		}
-	}, [element, influencingEntity]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [element, ...influencingEntity]);
 
 	return isScroll;
 };

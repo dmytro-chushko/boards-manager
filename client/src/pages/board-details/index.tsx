@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useRef } from "react";
 
 import { CreationButton } from "components";
 import { ENTITY, ROUTE } from "utils/consts";
@@ -15,11 +15,13 @@ import {
 import { SIZE } from "styles";
 
 export const BoardDetails: FC = () => {
-	const headerHeight = useElementHeight("header");
+	const containerRef = useRef(null);
+	const headerHeight = useElementHeight(containerRef);
 
 	return (
 		<FullHeightContainer
-			$decreaseIn={`${headerHeight}rem - ${SIZE.GENERAL.XS}`}
+			ref={containerRef}
+			$setHeight={`${headerHeight}rem`}
 			style={{ display: "flex", flexDirection: "column" }}
 		>
 			<Section>

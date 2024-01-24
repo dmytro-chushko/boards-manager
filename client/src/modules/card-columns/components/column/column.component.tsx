@@ -36,7 +36,11 @@ export const Column: FC<IColumnProps> = ({
 	const { id } = useParams();
 	const columnRef = useRef<HTMLUListElement>(null);
 	const columnHeight = useElementHeight(columnRef);
-	const isScroll = useChekScroll<ICard[]>(columnRef, cards);
+	const isScroll = useChekScroll<number | ICard[]>(
+		columnRef,
+		columnHeight,
+		cards,
+	);
 	const [removeCard, { isLoading: isCardRemoving, isSuccess: isCardRemoved }] =
 		useRemoveCardMutation();
 	const [updateCardOrder, { isLoading: isOrderUpdating }] =
@@ -123,7 +127,7 @@ export const Column: FC<IColumnProps> = ({
 			<StyledColumn
 				as="ul"
 				ref={columnRef}
-				$decreaseIn={`${columnHeight}rem`}
+				$setHeight={`${columnHeight - 1}rem`}
 				$isScroll={isScroll}
 				onDragOver={e => handleDragOverEmptyColumn(e)}
 				onDragLeave={e => handleDragLeaveEmptyColumn(e)}

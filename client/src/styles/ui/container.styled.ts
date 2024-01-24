@@ -7,12 +7,11 @@ export const Container = styled.main`
 `;
 
 export interface I$FHContainer {
-	$decreaseIn?: string;
+	$setHeight?: string;
 }
 
 export const FullHeightContainer = styled(Container)<I$FHContainer>`
-	height: ${({ $decreaseIn }) =>
-		$decreaseIn ? `calc(100dvh - ${$decreaseIn})` : "100dvh"};
+	height: ${({ $setHeight }) => ($setHeight ? $setHeight : "100svh")};
 `;
 
 export const Header = styled.header`
