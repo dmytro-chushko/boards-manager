@@ -6,4 +6,5 @@ export const StyledList = styled.ul`
 	display: flex;
 	align-items: start;
 	gap: ${SIZE.GENERAL.XS};
+	flex-wrap: wrap;
 `;
