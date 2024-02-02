@@ -6,7 +6,7 @@ import { AllExceptionsFilter } from "./exception/all.exception";
 import { CustomValidationPipe } from "./pipe/custom-validation.pipe";
 
 async function bootstrap() {
-  const PORT = process.env.PORT || 5000;
+  const PORT = process.env.PORT || 8090;
   const app = await NestFactory.create(AppModule, { cors: true });
   const { httpAdapter } = app.get(HttpAdapterHost);
 
