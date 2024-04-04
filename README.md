@@ -99,3 +99,24 @@ POSTGRES_USER=postgres
 POSTGRES_PASSWORD=root
 POSTGRES_DB=postgres
 ```
+
+## Technologies
+
+### Base backend libraries
+
+- **Framework**: NestJS
+- **Validation**: Class Validator
+- **ORM**: TypeORM
+- **DB**: PostgreSQL
+- **API Protocol**: REST(OpenAPISwagger)
+
+### Base frontend libraries
+
+- **Framework**: React SPA (Vite)
+- **Forms | Validation**: Hook Forms, Yup
+- **State | Query**: Redux RTK
+- **UI**: Styled-Components
+
+### Environment:
+
+- **Docker Compose**
