@@ -8,8 +8,8 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 8090
+EXPOSE 5173
 
 VOLUME /app/node_modules
 
-CMD ["npm", "run", "start:dev"]
+CMD ["npm", "run", "dev"]
